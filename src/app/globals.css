@@ -3,8 +3,11 @@
 :root {
   --bg-primary: #030712;
   --text-primary: #f8fafc;
-  --accent-cyan: #06b6d4;
+  --accent-cyan: #67e8f9;
+  --accent-violet: #c4b5fd;
   --accent-muted: #0891b2;
+  --glow-cyan: rgba(103, 232, 249, 0.4);
+  --glow-violet: rgba(196, 181, 253, 0.3);
 }
 
 @theme inline {
@@ -22,17 +25,121 @@ body {
   min-height: 100vh;
 }
 
+/* Futuristic holographic text glow */
+.holo-text {
+  text-shadow: 
+    0 0 10px var(--glow-cyan),
+    0 0 20px var(--glow-cyan),
+    0 0 40px var(--glow-violet);
+}
+
+/* Animated scan line overlay */
+.scan-lines::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(103, 232, 249, 0.015) 2px,
+    rgba(103, 232, 249, 0.015) 4px
+  );
+  pointer-events: none;
+  animation: scanMove 8s linear infinite;
+}
+
+@keyframes scanMove {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(20px); }
+}
+
+/* Holographic border effect */
+.holo-border {
+  position: relative;
+  border: 1px solid rgba(103, 232, 249, 0.2);
+  background: linear-gradient(135deg, rgba(103, 232, 249, 0.05) 0%, rgba(196, 181, 253, 0.03) 100%);
+}
+
+.holo-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  background: linear-gradient(90deg, transparent, var(--glow-cyan), transparent);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.holo-border:hover::before {
+  opacity: 0.3;
+  animation: borderGlow 2s linear infinite;
+}
+
+@keyframes borderGlow {
+  0%, 100% { transform: translateX(-100%); }
+  50% { transform: translateX(100%); }
+}
+
+/* Futuristic button styling */
+.future-btn {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+.future-btn::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+  transform: translateX(-100%);
+  transition: transform 0.4s ease;
+}
+
+.future-btn:hover::after {
+  transform: translateX(0);
+}
+
+/* Data panel flicker effect */
+.data-panel {
+  animation: panelFlicker 4s ease-in-out infinite;
+}
+
+@keyframes panelFlicker {
+  0%, 95%, 100% { opacity: 1; }
+  96% { opacity: 0.85; }
+  97% { opacity: 1; }
+  98% { opacity: 0.9; }
+}
+
+/* Pulsing glow effect */
+.pulse-glow {
+  animation: pulseGlow 3s ease-in-out infinite;
+}
+
+@keyframes pulseGlow {
+  0%, 100% { 
+    box-shadow: 0 0 5px var(--glow-cyan), 0 0 10px var(--glow-cyan);
+  }
+  50% { 
+    box-shadow: 0 0 15px var(--glow-cyan), 0 0 30px var(--glow-cyan), 0 0 45px var(--glow-violet);
+  }
+}
+
 /* Markdown content styling */
 .prose {
   --prose-body: #e2e8f0;
   --prose-headings: #f1f5f9;
-  --prose-links: #06b6d4;
+  --prose-links: #67e8f9;
   --prose-bold: #f8fafc;
   --prose-counters: #94a3b8;
   --prose-bullets: #64748b;
   --prose-hr: #334155;
   --prose-quotes: #cbd5e1;
-  --prose-quote-borders: #06b6d4;
+  --prose-quote-borders: #67e8f9;
   --prose-code: #e2e8f0;
   --prose-pre-code: #e2e8f0;
   --prose-pre-bg: #0f172a;
@@ -75,7 +182,7 @@ body {
   html { scroll-behavior: smooth; }
 }
 
-::selection { background: rgba(6, 182, 212, 0.3); color: #f8fafc; }
+::selection { background: rgba(103, 232, 249, 0.3); color: #f8fafc; }
 
 ::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: #0f172a; }
