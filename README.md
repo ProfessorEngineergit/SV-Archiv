@@ -65,3 +65,55 @@ Dokumentinhalt...
 - Dezente Three.js-Animationen im Hintergrund
 - Unterstützung für `prefers-reduced-motion`
 - Typografie im Museums-Stil
+
+## Google Drive spiegeln
+
+Die Protokolle werden aus Google Drive synchronisiert. Google Drive ist die Single Source of Truth.
+
+### Benötigte Umgebungsvariablen
+
+| Variable | Beschreibung |
+|----------|--------------|
+| `DRIVE_FOLDER_ID` | Die ID des Google-Drive-Ordners mit den PDFs |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | JSON-Credentials des Service Accounts |
+
+### Service Account einrichten
+
+1. Google Cloud Console öffnen
+2. Neues Projekt erstellen oder bestehendes auswählen
+3. Google Drive API aktivieren
+4. Service Account erstellen
+5. JSON-Key herunterladen
+6. Service Account E-Mail-Adresse zum Drive-Ordner hinzufügen (Lesezugriff)
+
+### Sync ausführen
+
+```bash
+npm run sync-drive
+```
+
+Oder direkt mit ts-node:
+
+```bash
+npx ts-node --transpile-only --compiler-options '{"module":"commonjs","moduleResolution":"node","esModuleInterop":true}' scripts/sync-drive.ts
+```
+
+### Dateiformat in Google Drive
+
+Alle PDFs müssen folgendes Namensformat haben:
+
+```
+SV-Protokoll 25.11.2025.pdf
+```
+
+Das Script parst automatisch:
+- **title**: `SV-Protokoll`
+- **date**: `2025-11-25`
+- **slug**: `sv-protokoll-2025-11-25`
+
+### Ergebnis
+
+Nach dem Sync liegen die Dateien in:
+- `public/downloads/<slug>.pdf` – die PDF-Dateien
+- `public/downloads/<slug>.pdf.meta.json` – Metadaten (für Change-Detection)
+- `public/data/index.json` – Index aller Dateien
