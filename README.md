@@ -104,21 +104,12 @@ Alle PDFs müssen folgendes Namensformat haben:
 
 ```
 SV-Protokoll 25.11.2025.pdf
-SV-Protokoll vom 19.1.2026.pdf
 ```
-
-Unterstützt werden:
-- Datumsformat mit oder ohne "vom"
-- Einstellige und zweistellige Tage/Monate
 
 Das Script parst automatisch:
 - **title**: `SV-Protokoll`
-- **date**: `2025-11-25` oder `2026-01-19`
-- **slug**: `sv-protokoll-2025-11-25` oder `sv-protokoll-2026-01-19`
-
-### GitHub Actions
-
-Die Synchronisierung erfolgt automatisch über GitHub Actions. Der Workflow führt `npm run sync-drive` aus und benötigt die Secrets `DRIVE_FOLDER_ID` und `GOOGLE_SERVICE_ACCOUNT_JSON` im Repository.
+- **date**: `2025-11-25`
+- **slug**: `sv-protokoll-2025-11-25`
 
 ### Ergebnis
 
