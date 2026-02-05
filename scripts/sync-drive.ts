@@ -24,14 +24,14 @@ interface MetaFile {
 }
 
 /**
- * Parse filename like "SV-Protokoll 25.11.2025.pdf"
+ * Parse filename like "SV-Protokoll 25.11.2025.pdf" or "SV-Protokoll vom 19.1.2026.pdf"
  * Returns: { title: "SV-Protokoll", date: "2025-11-25", slug: "sv-protokoll-2025-11-25" }
  */
 function parseFileName(
   fileName: string
 ): { title: string; date: string; slug: string } | null {
-  // Match pattern: "Title DD.MM.YYYY.pdf"
-  const regex = /^(.+?)\s+(\d{2})\.(\d{2})\.(\d{4})\.pdf$/i;
+  // Match pattern: "Title [vom] D.M.YYYY.pdf" or "Title [vom] DD.MM.YYYY.pdf"
+  const regex = /^(.+?)\s+(?:vom\s+)?(\d{1,2})\.(\d{1,2})\.(\d{4})\.pdf$/i;
   const match = fileName.match(regex);
 
   if (!match) {
@@ -39,7 +39,11 @@ function parseFileName(
     return null;
   }
 
-  const [, title, day, month, year] = match;
+  const [, title, dayRaw, monthRaw, year] = match;
+
+  // Pad day and month to 2 digits
+  const day = dayRaw.padStart(2, "0");
+  const month = monthRaw.padStart(2, "0");
 
   // Convert to ISO date format: YYYY-MM-DD
   const date = `${year}-${month}-${day}`;
