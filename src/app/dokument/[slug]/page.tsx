@@ -121,10 +121,50 @@ export default async function DokumentPage({
       </header>
 
       {/* Document Content */}
-      <article
-        className="prose max-w-none"
-        dangerouslySetInnerHTML={{ __html: protocol.htmlContent }}
-      />
+      {protocol.file ? (
+        <div className="border border-cyan-400/20 bg-slate-900/30 p-6">
+          <div className="mb-4 flex items-center gap-2">
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-400/70" />
+            <span className="text-xs font-mono text-slate-500 tracking-wider">PDF-DOKUMENT</span>
+          </div>
+          
+          <div className="flex flex-col gap-4">
+            <a
+              href={protocol.file}
+              download
+              className="inline-flex items-center gap-3 px-6 py-3 border border-cyan-400/40 bg-cyan-400/5 text-cyan-400 transition-all hover:bg-cyan-400/10 hover:border-cyan-400/60"
+            >
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={1.5}
+                  d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                />
+              </svg>
+              <span className="font-mono tracking-wider">PDF HERUNTERLADEN</span>
+            </a>
+            
+            <div className="w-full" style={{ height: "80vh" }}>
+              <iframe
+                src={protocol.file}
+                className="w-full h-full border border-slate-700/50"
+                title={protocol.title}
+              />
+            </div>
+          </div>
+        </div>
+      ) : (
+        <article
+          className="prose max-w-none"
+          dangerouslySetInnerHTML={{ __html: protocol.htmlContent }}
+        />
+      )}
 
       {/* Footer Navigation */}
       <div className="mt-16 pt-8 border-t border-slate-700/40">
