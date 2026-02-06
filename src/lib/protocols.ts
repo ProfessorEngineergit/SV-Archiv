@@ -1,10 +1,16 @@
 import fs from "fs";
 import path from "path";
-import matter from "gray-matter";
-import { remark } from "remark";
-import html from "remark-html";
 
-const protocolsDirectory = path.join(process.cwd(), "content/protocols");
+const INDEX_FILE = path.join(process.cwd(), "public", "data", "index.json");
+
+// Interface for Drive-synced protocol data from index.json
+interface DriveProtocolData {
+  title: string;
+  date: string;
+  slug: string;
+  file: string;
+  updatedAt: string;
+}
 
 export interface ProtocolMetadata {
   title: string;
@@ -14,6 +20,7 @@ export interface ProtocolMetadata {
   version: number;
   visibility: string;
   slug: string;
+  file?: string;
 }
 
 export interface Protocol extends ProtocolMetadata {
@@ -21,41 +28,34 @@ export interface Protocol extends ProtocolMetadata {
   htmlContent: string;
 }
 
-// Generate slug from filename (remove date prefix and extension)
-function generateSlug(filename: string): string {
-  return filename.replace(/\.md$/, "");
-}
-
 // Get all protocol metadata for the archive list
 export function getAllProtocols(): ProtocolMetadata[] {
-  const fileNames = fs.readdirSync(protocolsDirectory);
-  
-  const protocols = fileNames
-    .filter((fileName) => fileName.endsWith(".md"))
-    .map((fileName) => {
-      const slug = generateSlug(fileName);
-      const fullPath = path.join(protocolsDirectory, fileName);
-      const fileContents = fs.readFileSync(fullPath, "utf8");
-      const { data } = matter(fileContents);
+  // Check if index.json exists
+  if (!fs.existsSync(INDEX_FILE)) {
+    console.warn("⚠️  index.json not found, returning empty array");
+    return [];
+  }
 
-      return {
-        slug,
-        title: data.title || "Untitled",
-        date: data.date ? new Date(data.date).toISOString().split("T")[0] : "",
-        project: data.project || "",
-        tags: data.tags || [],
-        version: data.version || 1,
-        visibility: data.visibility || "public",
-      } as ProtocolMetadata;
-    })
-    .filter((protocol) => protocol.visibility === "public");
+  try {
+    // Read the Drive-synced index.json
+    const indexData = fs.readFileSync(INDEX_FILE, "utf8");
+    const driveProtocols: DriveProtocolData[] = JSON.parse(indexData);
 
-  // Sort by date (newest first)
-  return protocols.sort((a, b) => {
-    if (a.date < b.date) return 1;
-    if (a.date > b.date) return -1;
-    return 0;
-  });
+    // Map Drive data structure to ProtocolMetadata structure
+    return driveProtocols.map((item) => ({
+      slug: item.slug,
+      title: item.title || "Untitled",
+      date: item.date || "",
+      project: "",  // Drive data doesn't have projects
+      tags: [],     // Drive data doesn't have tags
+      version: 1,   // Drive data doesn't have versions
+      visibility: "public",  // All Drive files are public
+      file: item.file,  // PDF file path
+    }));
+  } catch (error) {
+    console.error("❌ Error reading index.json:", error);
+    return [];
+  }
 }
 
 // Get all unique projects
@@ -87,29 +87,32 @@ export function getAllTags(): string[] {
 // Get a single protocol by slug with full content
 export async function getProtocolBySlug(slug: string): Promise<Protocol | null> {
   try {
-    const fullPath = path.join(protocolsDirectory, `${slug}.md`);
-    
-    if (!fs.existsSync(fullPath)) {
+    // Read the Drive-synced index.json to find the protocol
+    if (!fs.existsSync(INDEX_FILE)) {
       return null;
     }
-    
-    const fileContents = fs.readFileSync(fullPath, "utf8");
-    const { data, content } = matter(fileContents);
 
-    // Convert markdown to HTML
-    const processedContent = await remark().use(html).process(content);
-    const htmlContent = processedContent.toString();
+    const indexData = fs.readFileSync(INDEX_FILE, "utf8");
+    const driveProtocols: DriveProtocolData[] = JSON.parse(indexData);
+    
+    // Find the protocol by slug
+    const item = driveProtocols.find((p) => p.slug === slug);
+    
+    if (!item) {
+      return null;
+    }
 
     return {
-      slug,
-      title: data.title || "Untitled",
-      date: data.date ? new Date(data.date).toISOString().split("T")[0] : "",
-      project: data.project || "",
-      tags: data.tags || [],
-      version: data.version || 1,
-      visibility: data.visibility || "public",
-      content,
-      htmlContent,
+      slug: item.slug,
+      title: item.title || "Untitled",
+      date: item.date || "",
+      project: "",
+      tags: [],
+      version: 1,
+      visibility: "public",
+      file: item.file,
+      content: "",  // PDF files don't have text content
+      htmlContent: "",  // PDF files don't have HTML content
     };
   } catch {
     return null;
@@ -118,9 +121,16 @@ export async function getProtocolBySlug(slug: string): Promise<Protocol | null> 
 
 // Get all slugs for static generation
 export function getAllProtocolSlugs(): string[] {
-  const fileNames = fs.readdirSync(protocolsDirectory);
-  
-  return fileNames
-    .filter((fileName) => fileName.endsWith(".md"))
-    .map((fileName) => generateSlug(fileName));
+  // Check if index.json exists
+  if (!fs.existsSync(INDEX_FILE)) {
+    return [];
+  }
+
+  try {
+    const indexData = fs.readFileSync(INDEX_FILE, "utf8");
+    const driveProtocols: DriveProtocolData[] = JSON.parse(indexData);
+    return driveProtocols.map((item) => item.slug);
+  } catch {
+    return [];
+  }
 }
