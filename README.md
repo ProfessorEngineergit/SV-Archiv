@@ -118,11 +118,30 @@ Das Script parst automatisch:
 
 ### GitHub Actions
 
-Die Synchronisierung erfolgt automatisch über GitHub Actions. Der Workflow führt `npm run sync-drive` aus und benötigt die Secrets `DRIVE_FOLDER_ID` und `GOOGLE_SERVICE_ACCOUNT_JSON` im Repository.
+Die Synchronisierung erfolgt automatisch über GitHub Actions alle 6 Stunden.
+
+#### Benötigte Repository Secrets
+
+Die folgenden Secrets müssen in den Repository-Einstellungen unter **Settings → Secrets and variables → Actions** hinterlegt werden:
+
+| Secret | Beschreibung |
+|--------|--------------|
+| `DRIVE_FOLDER_ID` | Die ID des Google-Drive-Ordners mit den PDFs |
+| `GOOGLE_SERVICE_ACCOUNT_JSON` | Der vollständige JSON-Inhalt der Service Account Credentials |
+
+#### Workflow manuell starten
+
+1. Zum Tab **Actions** im Repository navigieren
+2. Links den Workflow **Sync Google Drive** auswählen
+3. Rechts auf **Run workflow** klicken
+4. Branch auswählen (normalerweise `main`)
+5. Auf den grünen **Run workflow** Button klicken
+
+Der Workflow läuft auch automatisch alle 6 Stunden per Schedule.
 
 ### Ergebnis
 
 Nach dem Sync liegen die Dateien in:
 - `public/downloads/<slug>.pdf` – die PDF-Dateien
 - `public/downloads/<slug>.pdf.meta.json` – Metadaten (für Change-Detection)
-- `public/data/index.json` – Index aller Dateien
+- `public/data/index.json` – Index aller Dateien (Array, sortiert nach Datum, neueste zuerst)
