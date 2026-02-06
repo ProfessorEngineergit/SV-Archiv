@@ -20,37 +20,25 @@ export default function Home() {
             SV-ARCHIV
           </h1>
           
-          {/* Subtitle with year */}
+          {/* Subtitle */}
           <div className="mb-8 flex justify-center items-center gap-4">
             <div className="h-px w-12 bg-gradient-to-r from-transparent to-violet-400/50" />
-            <span className="text-xs font-mono text-violet-300/70 tracking-[0.4em]">EPOCHE 4000</span>
+            <span className="text-xs text-violet-300/70 tracking-[0.4em]">PROTOKOLL-VERWALTUNG</span>
             <div className="h-px w-12 bg-gradient-to-l from-transparent to-violet-400/50" />
           </div>
           
           <p className="mb-12 text-lg font-light tracking-wide text-slate-400 md:text-xl leading-relaxed">
-            Zentrales Wissensrepository der interstellaren Konföderation.
+            Zentrales Archiv für SV-Protokolle und Dokumentation.
             <br />
-            <span className="text-slate-500">Zugang zu historischen Protokollen und Dokumentationen.</span>
+            <span className="text-slate-500">Zugang zu allen Protokollen und Beschlüssen.</span>
           </p>
           
           {/* CTA Button */}
           <Link
             href="/archiv"
-            className="group relative inline-flex items-center gap-4 px-10 py-5 overflow-hidden"
+            className="btn-glow group relative inline-flex items-center gap-4 px-10 py-5 overflow-hidden bg-cyan-500/5 border border-cyan-400/30 rounded-lg transition-all duration-300 hover:border-cyan-400/60 hover:bg-cyan-500/10"
           >
-            {/* Button border */}
-            <span className="absolute inset-0 border border-cyan-400/30 transition-all duration-300 group-hover:border-cyan-400/60" />
-            
-            {/* Background glow */}
-            <span className="absolute inset-0 bg-gradient-to-r from-cyan-500/5 via-cyan-500/10 to-violet-500/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-            
-            {/* Corner accents */}
-            <span className="absolute top-0 left-0 h-3 w-3 border-t border-l border-cyan-400/50" />
-            <span className="absolute top-0 right-0 h-3 w-3 border-t border-r border-cyan-400/50" />
-            <span className="absolute bottom-0 left-0 h-3 w-3 border-b border-l border-cyan-400/50" />
-            <span className="absolute bottom-0 right-0 h-3 w-3 border-b border-r border-cyan-400/50" />
-            
-            <span className="relative text-sm font-light tracking-[0.3em] text-cyan-300 group-hover:text-cyan-200 transition-colors">
+            <span className="relative text-sm font-medium tracking-[0.2em] text-cyan-300 group-hover:text-cyan-200 transition-colors">
               ARCHIV BETRETEN
             </span>
             
@@ -70,7 +58,7 @@ export default function Home() {
           </Link>
           
           {/* Status indicators */}
-          <div className="mt-16 flex justify-center gap-8 text-xs font-mono text-slate-600">
+          <div className="mt-16 flex justify-center gap-8 text-xs text-slate-600">
             <span className="flex items-center gap-2">
               <span className="h-1.5 w-1.5 rounded-full bg-cyan-400/60" />
               SYSTEME AKTIV

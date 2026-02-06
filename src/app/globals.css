@@ -14,8 +14,9 @@
   --color-background: var(--bg-primary);
   --color-foreground: var(--text-primary);
   --color-accent: var(--accent-cyan);
-  --font-sans: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  --font-mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  --font-heading: "Exo 2", "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Exo 2", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
 }
 
 body {
@@ -23,6 +24,10 @@ body {
   color: var(--text-primary);
   font-family: var(--font-sans);
   min-height: 100vh;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
 }
 
 /* Futuristic holographic text glow */
@@ -84,23 +89,59 @@ body {
 .future-btn {
   position: relative;
   overflow: hidden;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 4px;
+}
+
+.future-btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, var(--glow-cyan), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.future-btn:hover::before {
+  opacity: 0.08;
 }
 
 .future-btn::after {
   content: "";
   position: absolute;
   bottom: 0;
-  left: 0;
-  width: 100%;
+  left: 50%;
+  width: 0;
   height: 2px;
   background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
-  transform: translateX(-100%);
-  transition: transform 0.4s ease;
+  transition: width 0.4s ease, left 0.4s ease;
 }
 
 .future-btn:hover::after {
-  transform: translateX(0);
+  width: 100%;
+  left: 0;
+}
+
+.future-btn:active {
+  transform: scale(0.97);
+}
+
+/* Advanced button with glow */
+.btn-glow {
+  position: relative;
+  overflow: hidden;
+  border-radius: 6px;
+  transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 0 0 1px rgba(103, 232, 249, 0.2);
+}
+
+.btn-glow:hover {
+  box-shadow: 0 0 20px rgba(103, 232, 249, 0.15), 0 0 0 1px rgba(103, 232, 249, 0.4);
+  transform: translateY(-1px);
+}
+
+.btn-glow:active {
+  transform: translateY(0) scale(0.98);
 }
 
 /* Data panel flicker effect */
@@ -188,3 +229,52 @@ body {
 ::-webkit-scrollbar-track { background: #0f172a; }
 ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
 ::-webkit-scrollbar-thumb:hover { background: #475569; }
+
+/* Responsive PDF iframe container - maintains A4 aspect ratio */
+.pdf-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pdf-container iframe {
+  width: 100%;
+  border: 1px solid rgba(100, 116, 139, 0.3);
+  border-radius: 4px;
+}
+
+/* Timeline styles */
+.timeline-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: #334155 transparent;
+  -webkit-overflow-scrolling: touch;
+}
+
+.timeline-scroll::-webkit-scrollbar {
+  height: 6px;
+}
+
+.timeline-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.timeline-scroll::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 3px;
+}
+
+.timeline-fade-left {
+  mask-image: linear-gradient(to right, transparent, black 80px);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 80px);
+}
+
+.timeline-fade-right {
+  mask-image: linear-gradient(to left, transparent, black 80px);
+  -webkit-mask-image: linear-gradient(to left, transparent, black 80px);
+}
+
+.timeline-fade-both {
+  mask-image: linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent);
+  -webkit-mask-image: linear-gradient(to right, transparent, black 80px, black calc(100% - 80px), transparent);
+}
