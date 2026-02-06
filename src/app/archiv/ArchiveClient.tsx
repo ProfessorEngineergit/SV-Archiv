@@ -137,10 +137,10 @@ export default function ArchiveClient({
             </a>
           </div>
           {/* PDF viewer */}
-          <div className="flex-1 min-h-0">
+          <div className="flex-1 min-h-0 relative">
             <iframe
               src={fullscreenProtocol.file}
-              className="w-full h-full"
+              className="absolute inset-0 w-full h-full"
               title={fullscreenProtocol.title}
               sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
             />
@@ -336,8 +336,8 @@ export default function ArchiveClient({
                               className="w-full h-full pointer-events-none"
                               title={`Vorschau: ${protocol.title}`}
                               tabIndex={-1}
-                              sandbox="allow-same-origin"
-                              style={{ transform: "scale(0.5)", transformOrigin: "top left", width: "200%", height: "200%" }}
+                              sandbox="allow-same-origin allow-scripts"
+                              style={{ transform: "scale(0.5)", transformOrigin: "top left", width: "200%", height: "200%", maxWidth: "none" }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-900/90" />
                             <div className="absolute bottom-0 left-0 right-0 p-3">
@@ -387,8 +387,8 @@ export default function ArchiveClient({
                           className="w-full h-full pointer-events-none"
                           title={`Vorschau: ${protocol.title}`}
                           tabIndex={-1}
-                          sandbox="allow-same-origin"
-                          style={{ transform: "scale(0.3)", transformOrigin: "top left", width: "333%", height: "333%" }}
+                          sandbox="allow-same-origin allow-scripts"
+                          style={{ transform: "scale(0.3)", transformOrigin: "top left", width: "333%", height: "333%", maxWidth: "none" }}
                         />
                       </div>
                     )}
