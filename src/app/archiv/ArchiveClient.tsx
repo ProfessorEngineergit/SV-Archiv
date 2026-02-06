@@ -140,7 +140,7 @@ export default function ArchiveClient({
           <div className="flex-1 min-h-0 relative bg-gray-100">
             <iframe
               src={fullscreenProtocol.file}
-              className="absolute inset-0 w-full h-full border-0 bg-white"
+              className="absolute inset-0 w-full h-full bg-white"
               title={fullscreenProtocol.title}
               sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
             />
@@ -333,11 +333,11 @@ export default function ArchiveClient({
                           <div className="relative h-full overflow-hidden rounded-lg bg-white flex items-center justify-center">
                             {/* PDF icon as placeholder */}
                             <div className="text-slate-400">
-                              <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                              <svg className="w-16 h-16 mx-auto mb-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="PDF document icon">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                               </svg>
                             </div>
-                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-900/90 pointer-events-none" />
+                            <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-900/80 pointer-events-none" />
                             <div className="absolute bottom-0 left-0 right-0 p-3 pointer-events-none">
                               <h3 className="text-xs font-medium text-cyan-50 line-clamp-2">
                                 {protocol.title}
@@ -380,7 +380,7 @@ export default function ArchiveClient({
                     {/* PDF mini preview */}
                     {protocol.file && (
                       <div className="hidden sm:block relative h-16 w-12 overflow-hidden rounded bg-white border border-slate-700/30 flex-shrink-0 flex items-center justify-center">
-                        <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg className="w-6 h-6 text-slate-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-label="PDF document icon">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
                         </svg>
                       </div>
