@@ -31,8 +31,8 @@ function useGPUCapability(): boolean {
   return useSyncExternalStore(noOp, detectGL, () => true);
 }
 
-// Year 4000 Archive pseudo-random generator
-function archiveNumberStream(entropy: number) {
+// Pseudo-random generator
+function seededRandom(entropy: number) {
   let v = entropy;
   return () => {
     v = (v * 16807) % 2147483647;
@@ -40,90 +40,88 @@ function archiveNumberStream(entropy: number) {
   };
 }
 
-// Quantum Data Transfer Visualization - ascending information packets
-function QuantumDataTransfer({ particleCount = 1600, frozen = false }) {
+// Floating particles - ascending data visualization
+function FloatingParticles({ count = 1200, frozen = false }) {
   const meshRef = useRef<THREE.Points>(null);
-  
-  const [locationData, riseRates] = useMemo(() => {
-    const locs = new Float32Array(particleCount * 3);
-    const rates = new Float32Array(particleCount);
-    const numGen = archiveNumberStream(3141);
-    
-    for (let p = 0; p < particleCount; p++) {
-      const baseX = (numGen() - 0.5) * 42;
-      const baseZ = (numGen() - 0.5) * 38 - 8;
-      locs[p * 3] = baseX + (numGen() - 0.5) * 1.8;
-      locs[p * 3 + 1] = (numGen() - 0.5) * 26;
-      locs[p * 3 + 2] = baseZ + (numGen() - 0.5) * 1.8;
-      rates[p] = 0.018 + numGen() * 0.055;
+
+  const [positions, speeds] = useMemo(() => {
+    const pos = new Float32Array(count * 3);
+    const spd = new Float32Array(count);
+    const rng = seededRandom(3141);
+
+    for (let i = 0; i < count; i++) {
+      pos[i * 3] = (rng() - 0.5) * 40;
+      pos[i * 3 + 1] = (rng() - 0.5) * 24;
+      pos[i * 3 + 2] = (rng() - 0.5) * 36 - 8;
+      spd[i] = 0.012 + rng() * 0.04;
     }
-    return [locs, rates];
-  }, [particleCount]);
+    return [pos, spd];
+  }, [count]);
 
   useFrame(() => {
     if (!meshRef.current || frozen) return;
     const arr = meshRef.current.geometry.attributes.position.array as Float32Array;
-    for (let p = 0; p < particleCount; p++) {
-      arr[p * 3 + 1] += riseRates[p];
-      if (arr[p * 3 + 1] > 13) arr[p * 3 + 1] = -13;
+    for (let i = 0; i < count; i++) {
+      arr[i * 3 + 1] += speeds[i];
+      if (arr[i * 3 + 1] > 12) arr[i * 3 + 1] = -12;
     }
     meshRef.current.geometry.attributes.position.needsUpdate = true;
   });
 
   return (
-    <Points ref={meshRef} positions={locationData} stride={3}>
+    <Points ref={meshRef} positions={positions} stride={3}>
       <PointMaterial
         transparent
         color="#67e8f9"
-        size={0.016}
+        size={0.018}
         sizeAttenuation
         depthWrite={false}
-        opacity={0.52}
+        opacity={0.5}
         blending={THREE.AdditiveBlending}
       />
     </Points>
   );
 }
 
-// Memory Crystal Swarm - orbiting knowledge fragments
-function MemoryCrystalSwarm({ crystalCount = 1100, frozen = false }) {
+// Orbiting crystal swarm
+function CrystalSwarm({ count = 800, frozen = false }) {
   const swarmRef = useRef<THREE.Points>(null);
-  
+
   const [crystalPos, homePos] = useMemo(() => {
-    const pos = new Float32Array(crystalCount * 3);
-    const home = new Float32Array(crystalCount * 3);
-    const rng = archiveNumberStream(2718);
-    
-    for (let c = 0; c < crystalCount; c++) {
+    const pos = new Float32Array(count * 3);
+    const home = new Float32Array(count * 3);
+    const rng = seededRandom(2718);
+
+    for (let i = 0; i < count; i++) {
       const az = rng() * 6.283;
       const el = Math.acos(2 * rng() - 1);
-      const rad = 2.5 + rng() * 3.8;
-      
-      pos[c * 3] = rad * Math.sin(el) * Math.cos(az);
-      pos[c * 3 + 1] = rad * Math.sin(el) * Math.sin(az);
-      pos[c * 3 + 2] = rad * Math.cos(el) - 5;
-      
-      home[c * 3] = pos[c * 3];
-      home[c * 3 + 1] = pos[c * 3 + 1];
-      home[c * 3 + 2] = pos[c * 3 + 2];
+      const rad = 2 + rng() * 4;
+
+      pos[i * 3] = rad * Math.sin(el) * Math.cos(az);
+      pos[i * 3 + 1] = rad * Math.sin(el) * Math.sin(az);
+      pos[i * 3 + 2] = rad * Math.cos(el) - 5;
+
+      home[i * 3] = pos[i * 3];
+      home[i * 3 + 1] = pos[i * 3 + 1];
+      home[i * 3 + 2] = pos[i * 3 + 2];
     }
     return [pos, home];
-  }, [crystalCount]);
+  }, [count]);
 
   useFrame((ctx) => {
     if (!swarmRef.current || frozen) return;
     const t = ctx.clock.elapsedTime;
     const arr = swarmRef.current.geometry.attributes.position.array as Float32Array;
-    
-    for (let c = 0; c < crystalCount; c++) {
-      const hx = homePos[c * 3];
-      const hy = homePos[c * 3 + 1];
-      const hz = homePos[c * 3 + 2];
-      
-      const spin = t * 0.22;
-      arr[c * 3] = hx * Math.cos(spin) - (hz + 5) * Math.sin(spin);
-      arr[c * 3 + 2] = hx * Math.sin(spin) + (hz + 5) * Math.cos(spin) - 5;
-      arr[c * 3 + 1] = hy + Math.sin(t * 1.6 + hx * 0.35) * 0.22;
+
+    for (let i = 0; i < count; i++) {
+      const hx = homePos[i * 3];
+      const hy = homePos[i * 3 + 1];
+      const hz = homePos[i * 3 + 2];
+
+      const spin = t * 0.18;
+      arr[i * 3] = hx * Math.cos(spin) - (hz + 5) * Math.sin(spin);
+      arr[i * 3 + 2] = hx * Math.sin(spin) + (hz + 5) * Math.cos(spin) - 5;
+      arr[i * 3 + 1] = hy + Math.sin(t * 1.2 + hx * 0.3) * 0.2;
     }
     swarmRef.current.geometry.attributes.position.needsUpdate = true;
   });
@@ -133,220 +131,167 @@ function MemoryCrystalSwarm({ crystalCount = 1100, frozen = false }) {
       <PointMaterial
         transparent
         color="#c4b5fd"
-        size={0.02}
+        size={0.022}
         sizeAttenuation
         depthWrite={false}
-        opacity={0.72}
+        opacity={0.65}
         blending={THREE.AdditiveBlending}
       />
     </Points>
   );
 }
 
-// Chronometric Ring - time indicator
-function ChronometricRing({ diameter = 5, altitude = 0, angularVelocity = 0.2, hue = "#67e8f9", frozen = false }) {
+// Rotating geometric rings at various angles
+function GeometricRing({ diameter = 5, altitude = 0, speed = 0.2, tilt = 0, color = "#67e8f9", frozen = false }) {
   const ringRef = useRef<THREE.Mesh>(null);
 
   useFrame((ctx) => {
     if (!ringRef.current || frozen) return;
-    ringRef.current.rotation.z = ctx.clock.elapsedTime * angularVelocity;
-    ringRef.current.rotation.x = 1.571 + Math.sin(ctx.clock.elapsedTime * 0.4) * 0.07;
+    ringRef.current.rotation.z = ctx.clock.elapsedTime * speed;
+    ringRef.current.rotation.x = tilt + Math.sin(ctx.clock.elapsedTime * 0.3) * 0.08;
+    ringRef.current.rotation.y = ctx.clock.elapsedTime * speed * 0.3;
   });
 
   return (
     <mesh ref={ringRef} position={[0, altitude, -5]}>
-      <torusGeometry args={[diameter, 0.022, 10, 72]} />
-      <meshBasicMaterial color={hue} transparent opacity={0.48} />
+      <torusGeometry args={[diameter, 0.025, 10, 80]} />
+      <meshBasicMaterial color={color} transparent opacity={0.4} />
     </mesh>
   );
 }
 
-// Infinite Archive Floor - holographic grid system
-function InfiniteArchiveFloor({ frozen = false }) {
-  const floorGroupRef = useRef<THREE.Group>(null);
+// Grid floor with depth
+function GridFloor({ frozen = false }) {
+  const floorRef = useRef<THREE.Group>(null);
   const beamRef = useRef<THREE.Mesh>(null);
 
   useFrame((ctx) => {
     if (frozen) return;
-    if (floorGroupRef.current) {
-      floorGroupRef.current.position.y = -4.2 + Math.sin(ctx.clock.elapsedTime * 0.25) * 0.12;
+    if (floorRef.current) {
+      floorRef.current.position.y = -4 + Math.sin(ctx.clock.elapsedTime * 0.2) * 0.1;
     }
     if (beamRef.current) {
-      beamRef.current.position.z = ((ctx.clock.elapsedTime * 2.2) % 46) - 23;
+      beamRef.current.position.z = ((ctx.clock.elapsedTime * 1.8) % 46) - 23;
     }
   });
 
   return (
-    <group ref={floorGroupRef} position={[0, -4.2, 0]}>
-      <mesh rotation={[-1.571, 0, 0]}>
-        <planeGeometry args={[85, 85, 32, 32]} />
-        <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.055} />
+    <group ref={floorRef} position={[0, -4, 0]}>
+      <mesh rotation={[-Math.PI / 2, 0, 0]}>
+        <planeGeometry args={[80, 80, 28, 28]} />
+        <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.04} />
       </mesh>
-      <mesh rotation={[-1.571, 0, 0]} position={[0, 0.012, 0]}>
-        <planeGeometry args={[85, 85, 64, 64]} />
-        <meshBasicMaterial color="#c4b5fd" wireframe transparent opacity={0.022} />
-      </mesh>
-      <mesh ref={beamRef} rotation={[-1.571, 0, 0]} position={[0, 0.022, 0]}>
-        <planeGeometry args={[85, 0.55]} />
-        <meshBasicMaterial color="#67e8f9" transparent opacity={0.22} blending={THREE.AdditiveBlending} />
+      <mesh ref={beamRef} rotation={[-Math.PI / 2, 0, 0]} position={[0, 0.02, 0]}>
+        <planeGeometry args={[80, 0.4]} />
+        <meshBasicMaterial color="#67e8f9" transparent opacity={0.15} blending={THREE.AdditiveBlending} />
       </mesh>
     </group>
   );
 }
 
-// Archive Storage Unit - floating data container
-function ArchiveStorageUnit({ location, scale = 0.5, timeOffset = 0, frozen = false }: {
-  location: [number, number, number];
-  scale?: number;
-  timeOffset?: number;
-  frozen?: boolean;
-}) {
-  const unitRef = useRef<THREE.Group>(null);
+// Central 3D structure - nested rotating polyhedra
+function CentralStructure({ frozen = false }) {
+  const groupRef = useRef<THREE.Group>(null);
+  const innerRef = useRef<THREE.Mesh>(null);
+  const midRef = useRef<THREE.Mesh>(null);
 
   useFrame((ctx) => {
-    if (!unitRef.current || frozen) return;
-    unitRef.current.rotation.x = ctx.clock.elapsedTime * 0.4 + timeOffset;
-    unitRef.current.rotation.y = ctx.clock.elapsedTime * 0.25 + timeOffset;
-    unitRef.current.position.y = location[1] + Math.sin(ctx.clock.elapsedTime + timeOffset) * 0.22;
-  });
+    if (!groupRef.current || frozen) return;
+    const t = ctx.clock.elapsedTime;
+    groupRef.current.rotation.y = t * 0.12;
 
-  return (
-    <group ref={unitRef} position={location}>
-      <mesh>
-        <boxGeometry args={[scale, scale, scale]} />
-        <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.32} />
-      </mesh>
-      <mesh scale={0.62}>
-        <boxGeometry args={[scale, scale, scale]} />
-        <meshBasicMaterial color="#c4b5fd" transparent opacity={0.16} />
-      </mesh>
-      <mesh scale={0.26}>
-        <octahedronGeometry args={[scale]} />
-        <meshBasicMaterial color="#ecfeff" transparent opacity={0.5} />
-      </mesh>
-    </group>
-  );
-}
-
-// Guardian Drones - circling security orbs
-function GuardianDrones({ frozen = false }) {
-  const droneGroupRef = useRef<THREE.Group>(null);
-  
-  const droneConfigs = useMemo(() => [
-    { radius: 5.2, speed: 0.26, yPos: -0.3, color: "#67e8f9" },
-    { radius: 7.2, speed: -0.16, yPos: 0.4, color: "#c4b5fd" },
-    { radius: 9.2, speed: 0.1, yPos: 1.0, color: "#fdba74" },
-  ], []);
-
-  useFrame((ctx) => {
-    if (!droneGroupRef.current || frozen) return;
-    droneGroupRef.current.rotation.y = ctx.clock.elapsedTime * 0.07;
-  });
-
-  return (
-    <group ref={droneGroupRef} position={[0, 0, -5]}>
-      {droneConfigs.map((cfg, i) => (
-        <SingleDrone key={i} config={cfg} idx={i} frozen={frozen} />
-      ))}
-    </group>
-  );
-}
-
-function SingleDrone({ config, idx, frozen }: { config: { radius: number; speed: number; yPos: number; color: string }; idx: number; frozen: boolean }) {
-  const droneRef = useRef<THREE.Mesh>(null);
-
-  useFrame((ctx) => {
-    if (!droneRef.current || frozen) return;
-    const angle = ctx.clock.elapsedTime * config.speed + idx * 2.094;
-    droneRef.current.position.x = Math.cos(angle) * config.radius;
-    droneRef.current.position.z = Math.sin(angle) * config.radius;
-    droneRef.current.position.y = config.yPos + Math.sin(ctx.clock.elapsedTime * 1.6 + idx) * 0.35;
-  });
-
-  return (
-    <mesh ref={droneRef}>
-      <sphereGeometry args={[0.075, 10, 10]} />
-      <meshBasicMaterial color={config.color} transparent opacity={0.82} />
-    </mesh>
-  );
-}
-
-// Information Terminal - floating display screen
-function InformationTerminal({ pos, w = 2, h = 1.1, frozen = false }: {
-  pos: [number, number, number];
-  w?: number;
-  h?: number;
-  frozen?: boolean;
-}) {
-  const termRef = useRef<THREE.Group>(null);
-  const screenRef = useRef<THREE.Mesh>(null);
-
-  useFrame((ctx) => {
-    if (!termRef.current || frozen) return;
-    termRef.current.position.y = pos[1] + Math.sin(ctx.clock.elapsedTime * 0.65) * 0.07;
-    termRef.current.lookAt(0, pos[1], 12);
-    
-    if (screenRef.current) {
-      const flick = Math.sin(ctx.clock.elapsedTime * 16) * 0.07 + 0.93;
-      (screenRef.current.material as THREE.MeshBasicMaterial).opacity = 0.11 * flick;
+    if (innerRef.current) {
+      innerRef.current.rotation.x = t * 0.35;
+      innerRef.current.rotation.z = t * 0.2;
+      const pulse = Math.sin(t * 1.5) * 0.08 + 1;
+      innerRef.current.scale.setScalar(pulse);
+    }
+    if (midRef.current) {
+      midRef.current.rotation.x = -t * 0.15;
+      midRef.current.rotation.z = t * 0.1;
     }
   });
 
   return (
-    <group ref={termRef} position={pos}>
+    <group ref={groupRef} position={[0, 0, -5]}>
       <mesh>
-        <planeGeometry args={[w, h]} />
-        <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.26} />
+        <icosahedronGeometry args={[2.8, 1]} />
+        <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.12} />
       </mesh>
-      <mesh ref={screenRef} position={[0, 0, -0.012]}>
-        <planeGeometry args={[w - 0.12, h - 0.12]} />
-        <meshBasicMaterial color="#67e8f9" transparent opacity={0.11} side={THREE.DoubleSide} />
+      <mesh ref={midRef}>
+        <dodecahedronGeometry args={[2, 0]} />
+        <meshBasicMaterial color="#c4b5fd" wireframe transparent opacity={0.18} />
       </mesh>
-      {[-0.22, 0, 0.22].map((yOff, i) => (
-        <mesh key={i} position={[0, yOff, 0.012]}>
-          <planeGeometry args={[w * 0.62 - i * 0.22, 0.042]} />
-          <meshBasicMaterial color="#67e8f9" transparent opacity={0.32 - i * 0.07} />
+      <mesh ref={innerRef}>
+        <octahedronGeometry args={[1.1, 0]} />
+        <meshBasicMaterial color="#ecfeff" wireframe transparent opacity={0.35} />
+      </mesh>
+      <mesh>
+        <sphereGeometry args={[0.3, 20, 20]} />
+        <meshBasicMaterial color="#67e8f9" transparent opacity={0.6} />
+      </mesh>
+    </group>
+  );
+}
+
+// Floating 3D cubes
+function FloatingCube({ position, size = 0.5, offset = 0, frozen = false }: {
+  position: [number, number, number];
+  size?: number;
+  offset?: number;
+  frozen?: boolean;
+}) {
+  const ref = useRef<THREE.Group>(null);
+
+  useFrame((ctx) => {
+    if (!ref.current || frozen) return;
+    const t = ctx.clock.elapsedTime;
+    ref.current.rotation.x = t * 0.35 + offset;
+    ref.current.rotation.y = t * 0.2 + offset;
+    ref.current.position.y = position[1] + Math.sin(t * 0.8 + offset) * 0.25;
+  });
+
+  return (
+    <group ref={ref} position={position}>
+      <mesh>
+        <boxGeometry args={[size, size, size]} />
+        <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.25} />
+      </mesh>
+      <mesh scale={0.55}>
+        <octahedronGeometry args={[size]} />
+        <meshBasicMaterial color="#c4b5fd" transparent opacity={0.15} />
+      </mesh>
+    </group>
+  );
+}
+
+// Light pillars
+function LightPillars({ frozen = false }) {
+  const ref = useRef<THREE.Group>(null);
+
+  useFrame((ctx) => {
+    if (!ref.current || frozen) return;
+    ref.current.rotation.y = ctx.clock.elapsedTime * 0.025;
+  });
+
+  const pillars = useMemo(() => {
+    const gen = seededRandom(1618);
+    return Array.from({ length: 4 }, () => ({
+      x: (gen() - 0.5) * 28,
+      z: -8 - gen() * 14,
+      h: 18 + gen() * 12,
+      o: 0.01 + gen() * 0.018,
+    }));
+  }, []);
+
+  return (
+    <group ref={ref}>
+      {pillars.map((p, i) => (
+        <mesh key={i} position={[p.x, p.h / 2 - 6, p.z]}>
+          <cylinderGeometry args={[0.03, 0.12, p.h, 4]} />
+          <meshBasicMaterial color="#67e8f9" transparent opacity={p.o} blending={THREE.AdditiveBlending} />
         </mesh>
       ))}
-    </group>
-  );
-}
-
-// Central Archive Nexus - main holographic structure
-function CentralArchiveNexus({ frozen = false }) {
-  const nexusRef = useRef<THREE.Group>(null);
-  const innerCoreRef = useRef<THREE.Mesh>(null);
-
-  useFrame((ctx) => {
-    if (!nexusRef.current || frozen) return;
-    nexusRef.current.rotation.y = ctx.clock.elapsedTime * 0.16;
-    
-    if (innerCoreRef.current) {
-      innerCoreRef.current.rotation.x = ctx.clock.elapsedTime * 0.38;
-      innerCoreRef.current.rotation.z = ctx.clock.elapsedTime * 0.24;
-      const pulse = Math.sin(ctx.clock.elapsedTime * 1.65) * 0.07 + 1;
-      innerCoreRef.current.scale.setScalar(pulse);
-    }
-  });
-
-  return (
-    <group ref={nexusRef} position={[0, 0, -5]}>
-      <mesh>
-        <icosahedronGeometry args={[2.6, 1]} />
-        <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.16} />
-      </mesh>
-      <mesh>
-        <dodecahedronGeometry args={[1.9, 0]} />
-        <meshBasicMaterial color="#c4b5fd" wireframe transparent opacity={0.22} />
-      </mesh>
-      <mesh ref={innerCoreRef}>
-        <octahedronGeometry args={[1.05, 0]} />
-        <meshBasicMaterial color="#ecfeff" wireframe transparent opacity={0.42} />
-      </mesh>
-      <mesh>
-        <sphereGeometry args={[0.32, 20, 20]} />
-        <meshBasicMaterial color="#67e8f9" transparent opacity={0.72} />
-      </mesh>
     </group>
   );
 }
@@ -357,61 +302,20 @@ function LostDocumentProjection({ frozen = false }) {
 
   useFrame((ctx) => {
     if (!projRef.current || frozen) return;
-    projRef.current.rotation.y = ctx.clock.elapsedTime * 0.22;
-    projRef.current.position.y = Math.sin(ctx.clock.elapsedTime * 0.42) * 0.22;
+    projRef.current.rotation.y = ctx.clock.elapsedTime * 0.2;
+    projRef.current.position.y = Math.sin(ctx.clock.elapsedTime * 0.4) * 0.2;
   });
 
   return (
     <group ref={projRef} position={[0, 0, 0]}>
       <mesh>
-        <boxGeometry args={[2.6, 3.6, 0.1]} />
-        <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.32} />
+        <boxGeometry args={[2.4, 3.2, 0.1]} />
+        <meshBasicMaterial color="#67e8f9" wireframe transparent opacity={0.28} />
       </mesh>
       <mesh position={[0, 0, 0.06]}>
-        <planeGeometry args={[2.4, 3.4]} />
-        <meshBasicMaterial color="#c4b5fd" transparent opacity={0.07} />
+        <planeGeometry args={[2.2, 3]} />
+        <meshBasicMaterial color="#c4b5fd" transparent opacity={0.06} />
       </mesh>
-      {[-1.05, -0.52, 0, 0.52, 1.05].map((y, i) => (
-        <mesh key={i} position={[0, y, 0.072]}>
-          <planeGeometry args={[1.9 - Math.abs(y) * 0.22, 0.11]} />
-          <meshBasicMaterial color="#67e8f9" transparent opacity={0.26 + i * 0.035} />
-        </mesh>
-      ))}
-      <mesh position={[0, -1.25, 0.082]}>
-        <ringGeometry args={[0.32, 0.42, 6]} />
-        <meshBasicMaterial color="#fdba74" transparent opacity={0.52} />
-      </mesh>
-    </group>
-  );
-}
-
-// Ascending Light Pillars
-function AscendingLightPillars({ frozen = false }) {
-  const pillarsRef = useRef<THREE.Group>(null);
-
-  useFrame((ctx) => {
-    if (!pillarsRef.current || frozen) return;
-    pillarsRef.current.rotation.y = ctx.clock.elapsedTime * 0.035;
-  });
-
-  const pillarData = useMemo(() => {
-    const gen = archiveNumberStream(1618);
-    return Array.from({ length: 5 }, () => ({
-      x: (gen() - 0.5) * 32,
-      z: -10 - gen() * 16,
-      h: 22 + gen() * 16,
-      o: 0.012 + gen() * 0.022,
-    }));
-  }, []);
-
-  return (
-    <group ref={pillarsRef}>
-      {pillarData.map((p, i) => (
-        <mesh key={i} position={[p.x, p.h / 2 - 7, p.z]}>
-          <cylinderGeometry args={[0.035, 0.16, p.h, 5]} />
-          <meshBasicMaterial color="#67e8f9" transparent opacity={p.o} blending={THREE.AdditiveBlending} />
-        </mesh>
-      ))}
     </group>
   );
 }
@@ -428,7 +332,7 @@ export default function BackgroundScene({ variant = "default" }: ArchiveSceneCon
     return (
       <div className="fixed inset-0 -z-10 overflow-hidden pointer-events-none">
         <div className="absolute inset-0 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-950" />
-        <div 
+        <div
           className="absolute inset-0 opacity-5"
           style={{
             backgroundImage: "linear-gradient(#67e8f9 1px, transparent 1px), linear-gradient(90deg, #67e8f9 1px, transparent 1px)",
@@ -442,36 +346,29 @@ export default function BackgroundScene({ variant = "default" }: ArchiveSceneCon
   return (
     <div className="fixed inset-0 -z-10 pointer-events-none">
       <Canvas
-        camera={{ position: [0, 1.8, 12.5], fov: 57 }}
+        camera={{ position: [0, 1.5, 13], fov: 55 }}
         dpr={[1, 2]}
         gl={{ antialias: true, alpha: true }}
       >
         <color attach="background" args={["#030712"]} />
-        <fog attach="fog" args={["#030712", 14, 52]} />
-        
-        <InfiniteArchiveFloor frozen={reduceMotion} />
-        <QuantumDataTransfer particleCount={variant === "404" ? 850 : 1600} frozen={reduceMotion} />
-        <MemoryCrystalSwarm crystalCount={variant === "404" ? 650 : 1100} frozen={reduceMotion} />
-        
-        <ChronometricRing diameter={4.2} altitude={-0.6} angularVelocity={0.26} hue="#67e8f9" frozen={reduceMotion} />
-        <ChronometricRing diameter={6.2} altitude={0.3} angularVelocity={-0.16} hue="#c4b5fd" frozen={reduceMotion} />
-        <ChronometricRing diameter={8.2} altitude={1.1} angularVelocity={0.11} hue="#67e8f9" frozen={reduceMotion} />
-        
-        {variant !== "404" && <CentralArchiveNexus frozen={reduceMotion} />}
-        
-        <GuardianDrones frozen={reduceMotion} />
-        
-        <ArchiveStorageUnit location={[-5.2, 2.1, -8.5]} scale={0.52} timeOffset={0} frozen={reduceMotion} />
-        <ArchiveStorageUnit location={[6.2, -0.6, -10.5]} scale={0.72} timeOffset={1.1} frozen={reduceMotion} />
-        <ArchiveStorageUnit location={[-3.2, -1.6, -6.5]} scale={0.45} timeOffset={2.2} frozen={reduceMotion} />
-        <ArchiveStorageUnit location={[4.2, 2.6, -12.5]} scale={0.62} timeOffset={3.3} frozen={reduceMotion} />
-        
-        <InformationTerminal pos={[-7.2, 1.1, -15.5]} w={2.6} h={1.5} frozen={reduceMotion} />
-        <InformationTerminal pos={[8.2, 2.1, -18.5]} w={3} h={2} frozen={reduceMotion} />
-        <InformationTerminal pos={[-4.2, -0.6, -20.5]} w={2} h={1.3} frozen={reduceMotion} />
-        
-        <AscendingLightPillars frozen={reduceMotion} />
-        
+        <fog attach="fog" args={["#030712", 16, 50]} />
+
+        <GridFloor frozen={reduceMotion} />
+        <FloatingParticles count={variant === "404" ? 600 : 1200} frozen={reduceMotion} />
+        <CrystalSwarm count={variant === "404" ? 400 : 800} frozen={reduceMotion} />
+
+        <GeometricRing diameter={4} altitude={-0.5} speed={0.22} tilt={1.57} color="#67e8f9" frozen={reduceMotion} />
+        <GeometricRing diameter={6} altitude={0.3} speed={-0.14} tilt={1.2} color="#c4b5fd" frozen={reduceMotion} />
+        <GeometricRing diameter={8} altitude={1} speed={0.09} tilt={0.8} color="#67e8f9" frozen={reduceMotion} />
+
+        {variant !== "404" && <CentralStructure frozen={reduceMotion} />}
+
+        <FloatingCube position={[-5, 2, -9]} size={0.5} offset={0} frozen={reduceMotion} />
+        <FloatingCube position={[6, -0.5, -11]} size={0.7} offset={1.1} frozen={reduceMotion} />
+        <FloatingCube position={[-3, -1.5, -7]} size={0.4} offset={2.2} frozen={reduceMotion} />
+
+        <LightPillars frozen={reduceMotion} />
+
         {variant === "404" && <LostDocumentProjection frozen={reduceMotion} />}
       </Canvas>
     </div>
