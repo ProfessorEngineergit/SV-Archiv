@@ -253,7 +253,6 @@ iframe {
 /* Fix iframe overflow on mobile */
 @media (max-width: 640px) {
   iframe {
-    max-width: 100%;
     overflow: hidden;
   }
   
