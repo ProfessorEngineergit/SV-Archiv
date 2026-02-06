@@ -155,6 +155,7 @@ export default async function DokumentPage({
                 src={protocol.file}
                 className="w-full h-full border border-slate-700/50"
                 title={protocol.title}
+                sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
               />
             </div>
           </div>

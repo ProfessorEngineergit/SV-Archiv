@@ -3,6 +3,15 @@ import path from "path";
 
 const INDEX_FILE = path.join(process.cwd(), "public", "data", "index.json");
 
+// Interface for Drive-synced protocol data from index.json
+interface DriveProtocolData {
+  title: string;
+  date: string;
+  slug: string;
+  file: string;
+  updatedAt: string;
+}
+
 export interface ProtocolMetadata {
   title: string;
   date: string;
@@ -30,10 +39,10 @@ export function getAllProtocols(): ProtocolMetadata[] {
   try {
     // Read the Drive-synced index.json
     const indexData = fs.readFileSync(INDEX_FILE, "utf8");
-    const driveProtocols = JSON.parse(indexData);
+    const driveProtocols: DriveProtocolData[] = JSON.parse(indexData);
 
     // Map Drive data structure to ProtocolMetadata structure
-    return driveProtocols.map((item: any) => ({
+    return driveProtocols.map((item) => ({
       slug: item.slug,
       title: item.title || "Untitled",
       date: item.date || "",
@@ -84,10 +93,10 @@ export async function getProtocolBySlug(slug: string): Promise<Protocol | null> 
     }
 
     const indexData = fs.readFileSync(INDEX_FILE, "utf8");
-    const driveProtocols = JSON.parse(indexData);
+    const driveProtocols: DriveProtocolData[] = JSON.parse(indexData);
     
     // Find the protocol by slug
-    const item = driveProtocols.find((p: any) => p.slug === slug);
+    const item = driveProtocols.find((p) => p.slug === slug);
     
     if (!item) {
       return null;
@@ -119,8 +128,8 @@ export function getAllProtocolSlugs(): string[] {
 
   try {
     const indexData = fs.readFileSync(INDEX_FILE, "utf8");
-    const driveProtocols = JSON.parse(indexData);
-    return driveProtocols.map((item: any) => item.slug);
+    const driveProtocols: DriveProtocolData[] = JSON.parse(indexData);
+    return driveProtocols.map((item) => item.slug);
   } catch {
     return [];
   }
