@@ -3,6 +3,13 @@
 import { useState, useMemo, useRef, useCallback } from "react";
 import { ProtocolMetadata } from "@/lib/protocols";
 
+const PDF_PREVIEW_PARAMS = "#toolbar=0&navpanes=0&scrollbar=0&view=FitH";
+const PDF_A4_STYLE = {
+  height: "calc(100vw * 1.414)" as const,
+  maxHeight: "85vh" as const,
+  minHeight: "500px" as const,
+};
+
 interface ArchiveClientProps {
   protocols: ProtocolMetadata[];
   projects: string[];
@@ -258,7 +265,7 @@ export default function ArchiveClient({
                     {protocol.file && (
                       <div className="relative h-40 overflow-hidden rounded-t-lg bg-slate-800/50 border-b border-slate-700/30">
                         <iframe
-                          src={`${basePath}${protocol.file}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                          src={`${basePath}${protocol.file}${PDF_PREVIEW_PARAMS}`}
                           className="w-full h-full pointer-events-none"
                           title={`Vorschau: ${protocol.title}`}
                           tabIndex={-1}
@@ -335,7 +342,7 @@ export default function ArchiveClient({
                   {protocol.file && (
                     <div className="hidden sm:block relative h-16 w-12 overflow-hidden rounded bg-slate-800/50 border border-slate-700/30 flex-shrink-0">
                       <iframe
-                        src={`${basePath}${protocol.file}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                        src={`${basePath}${protocol.file}${PDF_PREVIEW_PARAMS}`}
                         className="w-full h-full pointer-events-none"
                         title={`Vorschau: ${protocol.title}`}
                         tabIndex={-1}
@@ -402,11 +409,7 @@ export default function ArchiveClient({
                     <iframe
                       src={`${basePath}${protocol.file}`}
                       className="w-full rounded"
-                      style={{
-                        height: "calc(100vw * 1.414)",
-                        maxHeight: "85vh",
-                        minHeight: "500px",
-                      }}
+                      style={PDF_A4_STYLE}
                       title={protocol.title}
                       sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
                     />
