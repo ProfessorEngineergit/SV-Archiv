@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
 import Header from "@/components/layout/Header";
 import Footer from "@/components/layout/Footer";
@@ -6,6 +6,13 @@ import Footer from "@/components/layout/Footer";
 export const metadata: Metadata = {
   title: "SV-Archiv",
   description: "Ein öffentliches Archiv für Protokolle und Dokumentation",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 export default function RootLayout({
