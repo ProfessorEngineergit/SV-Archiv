@@ -172,6 +172,12 @@ async function syncDrive(): Promise<void> {
   const driveFiles = await listDriveFiles(drive, folderId);
   console.log(`   Found ${driveFiles.length} PDF file(s)\n`);
 
+  // Warn if no files found (but don't crash)
+  if (driveFiles.length === 0) {
+    console.warn("⚠️  No PDF files found in the specified Drive folder.");
+    console.warn("   Check that DRIVE_FOLDER_ID is correct and the folder contains PDFs.");
+  }
+
   // Process each file
   const indexEntries: FileMetadata[] = [];
 
