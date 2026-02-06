@@ -25,7 +25,7 @@ interface MetaFile {
 
 /**
  * Parse filename like "SV-Protokoll 25.11.2025.pdf" or "SV-Protokoll vom 19.1.2026.pdf"
- * Returns: { title: "SV-Protokoll", date: "2025-11-25", slug: "sv-protokoll-2025-11-25" }
+ * Returns: { title: "Protokoll vom DD.MM.YYYY", date: "2025-11-25", slug: "sv-protokoll-2025-11-25" }
  */
 function parseFileName(
   fileName: string
@@ -52,7 +52,10 @@ function parseFileName(
   const titleSlug = slugify(title, { lower: true, strict: true });
   const slug = `${titleSlug}-${year}-${month}-${day}`;
 
-  return { title: title.trim(), date, slug };
+  // Create title in format "Protokoll vom DD.MM.YYYY"
+  const formattedTitle = `Protokoll vom ${day}.${month}.${year}`;
+
+  return { title: formattedTitle, date, slug };
 }
 
 /**
