@@ -336,6 +336,7 @@ export default function ArchiveClient({
                               className="w-full h-full pointer-events-none"
                               title={`Vorschau: ${protocol.title}`}
                               tabIndex={-1}
+                              sandbox="allow-same-origin"
                               style={{ transform: "scale(0.5)", transformOrigin: "top left", width: "200%", height: "200%" }}
                             />
                             <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-slate-900/90" />
@@ -386,6 +387,7 @@ export default function ArchiveClient({
                           className="w-full h-full pointer-events-none"
                           title={`Vorschau: ${protocol.title}`}
                           tabIndex={-1}
+                          sandbox="allow-same-origin"
                           style={{ transform: "scale(0.3)", transformOrigin: "top left", width: "333%", height: "333%" }}
                         />
                       </div>
