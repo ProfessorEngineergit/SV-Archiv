@@ -109,7 +109,7 @@ export default function ArchiveClient({
       </div>
 
       {/* Filter Section */}
-      <div className="mb-8 p-5 border border-cyan-400/20 bg-slate-900/40 backdrop-blur-sm rounded-lg">
+      <div className="mb-8 p-5 border border-cyan-400/20 bg-slate-900/40 backdrop-blur-sm rounded-lg overflow-hidden">
         <div className="flex flex-col gap-5">
           {/* Search + View Toggle Row */}
           <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">
@@ -157,7 +157,7 @@ export default function ArchiveClient({
 
           {/* Date filters */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
+            <div className="min-w-0">
               <label htmlFor="dateFrom" className="mb-2 block text-xs text-slate-500 tracking-wider">
                 VON
               </label>
@@ -166,10 +166,10 @@ export default function ArchiveClient({
                 type="date"
                 value={dateFrom}
                 onChange={(e) => setDateFrom(e.target.value)}
-                className="w-full border border-slate-700/50 bg-slate-900/70 px-4 py-2.5 text-slate-200 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/20 transition-all rounded-md"
+                className="w-full max-w-full border border-slate-700/50 bg-slate-900/70 px-4 py-2.5 text-slate-200 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/20 transition-all rounded-md"
               />
             </div>
-            <div>
+            <div className="min-w-0">
               <label htmlFor="dateTo" className="mb-2 block text-xs text-slate-500 tracking-wider">
                 BIS
               </label>
@@ -178,7 +178,7 @@ export default function ArchiveClient({
                 type="date"
                 value={dateTo}
                 onChange={(e) => setDateTo(e.target.value)}
-                className="w-full border border-slate-700/50 bg-slate-900/70 px-4 py-2.5 text-slate-200 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/20 transition-all rounded-md"
+                className="w-full max-w-full border border-slate-700/50 bg-slate-900/70 px-4 py-2.5 text-slate-200 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/20 transition-all rounded-md"
               />
             </div>
           </div>
