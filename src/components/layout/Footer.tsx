@@ -24,7 +24,7 @@ export default function Footer() {
         
         <div className="mt-6 pt-4 border-t border-slate-800/50 text-center">
           <p className="text-[10px] text-slate-600 tracking-widest">
-            © warian 2026
+            © SV-Waldorfschule Frankfurt a.M. 2026
           </p>
         </div>
       </div>

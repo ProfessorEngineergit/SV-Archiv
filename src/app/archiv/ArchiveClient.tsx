@@ -26,6 +26,13 @@ export default function ArchiveClient({
   const [expandedSlug, setExpandedSlug] = useState<string | null>(null);
   const timelineRef = useRef<HTMLDivElement>(null);
 
+  // Clear all filters
+  const clearAllFilters = () => {
+    setSearchQuery("");
+    setDateFrom("");
+    setDateTo("");
+  };
+
   // Sort protocols by date (oldest first for timeline)
   const sortedProtocols = useMemo(() => {
     return [...protocols].sort(
@@ -110,6 +117,17 @@ export default function ArchiveClient({
 
       {/* Filter Section */}
       <div className="mb-8 p-5 border border-cyan-400/20 bg-slate-900/40 backdrop-blur-sm rounded-lg overflow-hidden">
+        {/* Filter Header */}
+        <div className="flex items-center justify-between mb-5 pb-4 border-b border-slate-700/30">
+          <h2 className="text-lg font-light tracking-wider text-cyan-50">FILTER</h2>
+          <button
+            onClick={clearAllFilters}
+            className="px-3 py-1.5 text-xs tracking-wider text-slate-400 border border-slate-700/40 bg-slate-800/30 rounded-md transition-all hover:text-cyan-400 hover:border-cyan-400/40 hover:bg-cyan-400/5"
+          >
+            ALLE FILTER LÖSCHEN
+          </button>
+        </div>
+        
         <div className="flex flex-col gap-5">
           {/* Search + View Toggle Row */}
           <div className="flex flex-col sm:flex-row gap-4 items-stretch sm:items-end">

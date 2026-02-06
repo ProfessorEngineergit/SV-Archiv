@@ -161,7 +161,7 @@ export default async function DokumentPage({
                 minHeight: "500px",
               }}
               title={protocol.title}
-              sandbox="allow-same-origin allow-scripts allow-popups allow-forms"
+              sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
             />
           </div>
         </div>
