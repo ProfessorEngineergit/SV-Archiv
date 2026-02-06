@@ -52,7 +52,10 @@ function parseFileName(
   const titleSlug = slugify(title, { lower: true, strict: true });
   const slug = `${titleSlug}-${year}-${month}-${day}`;
 
-  return { title: title.trim(), date, slug };
+  // Create title in format "Protokoll vom DD.MM.YYYY"
+  const formattedTitle = `Protokoll vom ${day}.${month}.${year}`;
+
+  return { title: formattedTitle, date, slug };
 }
 
 /**
