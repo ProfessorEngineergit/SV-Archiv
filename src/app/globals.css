@@ -244,6 +244,56 @@ h1, h2, h3, h4, h5, h6 {
   border-radius: 4px;
 }
 
+/* Ensure all iframes are responsive and contained */
+iframe {
+  max-width: 100%;
+  display: block;
+}
+
+/* Fix iframe overflow on mobile */
+@media (max-width: 640px) {
+  iframe {
+    overflow: hidden;
+  }
+  
+  .pdf-container iframe {
+    max-height: 70vh;
+    min-height: 400px;
+  }
+}
+
+/* Fix for date inputs on mobile devices (especially iOS) */
+input[type="date"] {
+  max-width: 100%;
+  min-width: 0;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+/* Ensure date input calendar doesn't overflow on iOS */
+input[type="date"]::-webkit-calendar-picker-indicator {
+  background: transparent;
+  bottom: 0;
+  color: transparent;
+  cursor: pointer;
+  height: auto;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  width: auto;
+}
+
+/* Restore date input appearance while preventing overflow */
+@supports (-webkit-touch-callout: none) {
+  /* iOS-specific styles */
+  input[type="date"] {
+    position: relative;
+    -webkit-appearance: textfield;
+  }
+}
+
 /* Timeline styles */
 .timeline-scroll {
   scrollbar-width: thin;
