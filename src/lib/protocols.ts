@@ -3,6 +3,11 @@ import path from "path";
 
 const INDEX_FILE = path.join(process.cwd(), "public", "data", "index.json");
 
+// Get basePath based on environment
+const getBasePath = () => {
+  return process.env.NODE_ENV === 'production' ? '/SV-Archiv' : '';
+};
+
 // Interface for Drive-synced protocol data from index.json
 interface DriveProtocolData {
   title: string;
@@ -41,6 +46,8 @@ export function getAllProtocols(): ProtocolMetadata[] {
     const indexData = fs.readFileSync(INDEX_FILE, "utf8");
     const driveProtocols: DriveProtocolData[] = JSON.parse(indexData);
 
+    const basePath = getBasePath();
+
     // Map Drive data structure to ProtocolMetadata structure
     return driveProtocols.map((item) => ({
       slug: item.slug,
@@ -50,7 +57,7 @@ export function getAllProtocols(): ProtocolMetadata[] {
       tags: [],     // Drive data doesn't have tags
       version: 1,   // Drive data doesn't have versions
       visibility: "public",  // All Drive files are public
-      file: item.file,  // PDF file path
+      file: item.file ? `${basePath}${item.file}` : undefined,  // Prepend basePath to PDF file path
     }));
   } catch (error) {
     console.error("❌ Error reading index.json:", error);
@@ -102,6 +109,8 @@ export async function getProtocolBySlug(slug: string): Promise<Protocol | null> 
       return null;
     }
 
+    const basePath = getBasePath();
+
     return {
       slug: item.slug,
       title: item.title || "Untitled",
@@ -110,7 +119,7 @@ export async function getProtocolBySlug(slug: string): Promise<Protocol | null> 
       tags: [],
       version: 1,
       visibility: "public",
-      file: item.file,
+      file: item.file ? `${basePath}${item.file}` : undefined,  // Prepend basePath to PDF file path
       content: "",  // PDF files don't have text content
       htmlContent: "",  // PDF files don't have HTML content
     };
