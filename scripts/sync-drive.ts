@@ -25,13 +25,15 @@ interface MetaFile {
 
 /**
  * Parse filename like "SV-Protokoll 25.11.2025.pdf" or "SV-Protokoll vom 19.1.2026.pdf"
+ * Also handles "SV-Protokoll vom 5.2. 2026.pdf" (with space before year)
  * Returns: { title: "SV-Protokoll", date: "2025-11-25", slug: "sv-protokoll-2025-11-25" }
  */
 function parseFileName(
   fileName: string
 ): { title: string; date: string; slug: string } | null {
   // Match pattern: "Title [vom] D.M.YYYY.pdf" or "Title [vom] DD.MM.YYYY.pdf"
-  const regex = /^(.+?)\s+(?:vom\s+)?(\d{1,2})\.(\d{1,2})\.(\d{4})\.pdf$/i;
+  // Also handles optional space before year: "Title [vom] D.M. YYYY.pdf"
+  const regex = /^(.+?)\s+(?:vom\s+)?(\d{1,2})\.(\d{1,2})\.\s*(\d{4})\.pdf$/i;
   const match = fileName.match(regex);
 
   if (!match) {
