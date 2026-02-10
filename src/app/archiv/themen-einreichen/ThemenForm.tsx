@@ -12,6 +12,7 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
   const [thema, setThema] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState<string>("");
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,6 +23,7 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
 
     setIsSubmitting(true);
     setSubmitStatus("idle");
+    setErrorMessage("");
 
     try {
       const response = await fetch("/api/themen", {
@@ -41,7 +43,10 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
       });
 
       if (!response.ok) {
-        throw new Error("Failed to submit theme");
+        const errorData = await response.json().catch(() => ({}));
+        const message = errorData.error || "Fehler beim Einreichen des Themas";
+        setErrorMessage(message);
+        throw new Error(message);
       }
       
       setSubmitStatus("success");
@@ -54,6 +59,9 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
     } catch (error) {
       console.error("Error submitting topic:", error);
       setSubmitStatus("error");
+      if (!errorMessage && error instanceof Error) {
+        setErrorMessage(error.message);
+      }
     } finally {
       setIsSubmitting(false);
     }
@@ -192,9 +200,9 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
 
         {submitStatus === "error" && (
           <div className="mt-4 p-4 bg-red-500/10 border border-red-400/30 rounded-lg">
-            <div className="flex items-center gap-3">
+            <div className="flex items-start gap-3">
               <svg
-                className="h-5 w-5 text-red-400 flex-shrink-0"
+                className="h-5 w-5 text-red-400 flex-shrink-0 mt-0.5"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -206,9 +214,11 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
                   d="M6 18L18 6M6 6l12 12"
                 />
               </svg>
-              <span className="text-sm text-red-300">
-                Fehler beim Einreichen. Bitte versuche es erneut.
-              </span>
+              <div className="flex-1">
+                <span className="text-sm text-red-300 block">
+                  {errorMessage || "Fehler beim Einreichen. Bitte versuche es erneut."}
+                </span>
+              </div>
             </div>
           </div>
         )}

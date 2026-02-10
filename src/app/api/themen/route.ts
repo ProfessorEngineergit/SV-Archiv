@@ -120,6 +120,26 @@ export async function POST(request: NextRequest) {
       );
     }
 
+    // Check if environment variables are configured
+    const serviceAccountJson = process.env.GOOGLE_SERVICE_ACCOUNT_JSON;
+    const docId = process.env.THEMEN_DOC_ID;
+
+    if (!serviceAccountJson || !docId) {
+      console.error("❌ Google Docs API not configured");
+      console.error("Missing environment variables:", {
+        GOOGLE_SERVICE_ACCOUNT_JSON: serviceAccountJson ? "SET" : "MISSING",
+        THEMEN_DOC_ID: docId ? "SET" : "MISSING",
+      });
+      
+      return NextResponse.json(
+        { 
+          error: "Die Themeneingabe ist momentan nicht verfügbar. Bitte kontaktiere die Administratoren.",
+          details: "Google Docs API ist nicht konfiguriert"
+        },
+        { status: 503 }
+      );
+    }
+
     // Append to Google Doc
     await appendThemeToDoc(body);
 
@@ -135,7 +155,7 @@ export async function POST(request: NextRequest) {
       error instanceof Error ? error.message : "Unknown error occurred";
 
     return NextResponse.json(
-      { error: "Failed to submit theme", details: errorMessage },
+      { error: "Fehler beim Einreichen des Themas. Bitte versuche es später erneut.", details: errorMessage },
       { status: 500 }
     );
   }
