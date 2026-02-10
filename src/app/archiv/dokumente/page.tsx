@@ -104,7 +104,7 @@ export default function DokumentePage() {
                 Hinweis
               </h3>
               <p className="text-sm text-slate-400">
-                Die Dokumente werden aus dem Google Drive "Dokumente"-Ordner geladen.
+                Die Dokumente werden aus dem Google Drive &quot;Dokumente&quot;-Ordner geladen.
                 Diese Funktion wird nach der Einrichtung der Ordnerstruktur verfügbar sein.
               </p>
             </div>
