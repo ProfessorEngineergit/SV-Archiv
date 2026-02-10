@@ -43,7 +43,10 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
       });
 
       if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
+        const errorData = await response.json().catch((e) => {
+          console.warn("Failed to parse error response:", e);
+          return {};
+        });
         const message = errorData.error || "Fehler beim Einreichen des Themas";
         setErrorMessage(message);
         throw new Error(message);

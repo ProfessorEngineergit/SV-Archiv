@@ -133,8 +133,7 @@ export async function POST(request: NextRequest) {
       
       return NextResponse.json(
         { 
-          error: "Die Themeneingabe ist momentan nicht verfügbar. Bitte kontaktiere die Administratoren.",
-          details: "Google Docs API ist nicht konfiguriert"
+          error: "Die Themeneingabe ist momentan nicht verfügbar. Bitte kontaktiere die Administratoren."
         },
         { status: 503 }
       );
