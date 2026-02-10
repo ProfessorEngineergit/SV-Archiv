@@ -76,6 +76,7 @@ Die Protokolle werden aus Google Drive synchronisiert. Google Drive ist die Sing
 |----------|--------------|
 | `DRIVE_FOLDER_ID` | Die ID des Google-Drive-Ordners mit den PDFs |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | JSON-Credentials des Service Accounts |
+| `THEMEN_DOC_ID` | Die ID des Google Docs-Dokuments für Themeneingaben (optional) |
 
 ### Service Account einrichten
 
@@ -128,6 +129,9 @@ Die folgenden Secrets müssen in den Repository-Einstellungen unter **Settings �
 |--------|--------------|
 | `DRIVE_FOLDER_ID` | Die ID des Google-Drive-Ordners mit den PDFs |
 | `GOOGLE_SERVICE_ACCOUNT_JSON` | Der vollständige JSON-Inhalt der Service Account Credentials |
+| `THEMEN_DOC_ID` | Die ID des Google Docs-Dokuments für Themeneingaben (optional) |
+
+**Hinweis:** Wenn `THEMEN_DOC_ID` nicht konfiguriert ist, wird die Themeneingabe-Funktion eine benutzerfreundliche Fehlermeldung anzeigen, die Nutzer darüber informiert, dass die Funktion momentan nicht verfügbar ist.
 
 #### Workflow manuell starten
 
@@ -145,3 +149,22 @@ Nach dem Sync liegen die Dateien in:
 - `public/downloads/<slug>.pdf` – die PDF-Dateien
 - `public/downloads/<slug>.pdf.meta.json` – Metadaten (für Change-Detection)
 - `public/data/index.json` – Index aller Dateien (Array, sortiert nach Datum, neueste zuerst)
+
+## Themen einreichen
+
+Benutzer können über die Webseite Themen für die nächste SV-Stunde einreichen. Diese Funktion benötigt ein konfiguriertes Google Docs-Dokument.
+
+### Konfiguration
+
+1. Erstelle ein neues Google Docs-Dokument für die Themenliste
+2. Teile das Dokument mit der Service Account E-Mail-Adresse (Bearbeitungsrechte)
+3. Kopiere die Dokument-ID aus der URL (z.B. `https://docs.google.com/document/d/[DOKUMENT_ID]/edit`)
+4. Setze die Umgebungsvariable `THEMEN_DOC_ID` auf diese ID
+
+### Verhalten ohne Konfiguration
+
+Wenn `THEMEN_DOC_ID` oder `GOOGLE_SERVICE_ACCOUNT_JSON` nicht konfiguriert sind, zeigt das System automatisch eine benutzerfreundliche Fehlermeldung an:
+
+> "Die Themeneingabe ist momentan nicht verfügbar. Bitte kontaktiere die Administratoren."
+
+Dies ermöglicht es, die Anwendung zu betreiben, ohne dass die Themeneingabe-Funktion vollständig konfiguriert sein muss.
