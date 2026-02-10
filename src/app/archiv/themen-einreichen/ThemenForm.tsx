@@ -24,25 +24,9 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
     setSubmitStatus("idle");
 
     try {
-      const response = await fetch("/api/themen", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          name: name.trim(),
-          thema: thema.trim(),
-          nextStunde: {
-            date: nextStunde.date.toISOString(),
-            dateString: nextStunde.dateString,
-            fs: nextStunde.fs,
-          },
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to submit theme");
-      }
+      // TODO: Implement API endpoint to save to Google Drive
+      // For now, just simulate a submission
+      await new Promise((resolve) => setTimeout(resolve, 1000));
       
       setSubmitStatus("success");
       setName("");
