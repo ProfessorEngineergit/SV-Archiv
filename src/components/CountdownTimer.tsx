@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { SVStunde, getSecondsUntilNext, formatDuration } from "@/lib/schedule";
+import { SVStunde, getSecondsUntilNext, formatDuration, isSessionInProgress } from "@/lib/schedule";
 
 interface CountdownTimerProps {
   nextStunde: SVStunde | null;
@@ -9,6 +9,7 @@ interface CountdownTimerProps {
 
 export default function CountdownTimer({ nextStunde }: CountdownTimerProps) {
   const [seconds, setSeconds] = useState<number>(() => getSecondsUntilNext(nextStunde));
+  const [inProgress, setInProgress] = useState<boolean>(() => nextStunde ? isSessionInProgress(nextStunde) : false);
 
   useEffect(() => {
     if (!nextStunde) return;
@@ -16,6 +17,7 @@ export default function CountdownTimer({ nextStunde }: CountdownTimerProps) {
     // Update every second
     const interval = setInterval(() => {
       setSeconds(getSecondsUntilNext(nextStunde));
+      setInProgress(isSessionInProgress(nextStunde));
     }, 1000);
 
     return () => clearInterval(interval);
@@ -31,7 +33,7 @@ export default function CountdownTimer({ nextStunde }: CountdownTimerProps) {
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
           <span className="text-xs text-slate-500 tracking-widest uppercase">
-            Nächste SV-Stunde
+            {inProgress ? "Sitzung läuft" : "Nächste SV-Stunde"}
           </span>
         </div>
         
