@@ -60,7 +60,13 @@ async function appendThemeToDoc(thema: ThemaRequest): Promise<void> {
 
   // Get the document to find the end index
   const doc = await docs.documents.get({ documentId: docId });
-  const endIndex = doc.data.body?.content?.[doc.data.body.content.length - 1]?.endIndex;
+  const content = doc.data.body?.content;
+
+  if (!content || content.length === 0) {
+    throw new Error("Document has no content");
+  }
+
+  const endIndex = content[content.length - 1]?.endIndex;
 
   if (!endIndex) {
     throw new Error("Could not determine document end index");
@@ -107,7 +113,7 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    if (!body.nextStunde) {
+    if (!body.nextStunde || !body.nextStunde.dateString || !body.nextStunde.fs) {
       return NextResponse.json(
         { error: "Next SV-Stunde information is required" },
         { status: 400 }
