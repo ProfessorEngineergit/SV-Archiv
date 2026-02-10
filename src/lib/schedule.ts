@@ -17,7 +17,8 @@ export const FS_TIME_MAP: Record<string, FSTimeRange> = {
 };
 
 export interface SVStunde {
-  date: Date; // Full datetime of the SV-Stunde
+  date: Date; // Full datetime of the SV-Stunde START
+  endDate: Date; // Full datetime of the SV-Stunde END
   dateString: string; // Original date string like "Mo 19.01"
   fs: string; // FS number like "3.FS", "6.FS"
   rawLine: string; // Original line from the file
@@ -57,14 +58,17 @@ export function parseTermineLine(line: string, currentYear: number): SVStunde | 
     return null;
   }
 
-  // Parse start time
-  const [hours, minutes] = timeRange.start.split(":").map(Number);
+  // Parse start and end times
+  const [startHours, startMinutes] = timeRange.start.split(":").map(Number);
+  const [endHours, endMinutes] = timeRange.end.split(":").map(Number);
   
   // Create date in Europe/Berlin timezone
-  const date = new Date(year, month - 1, day, hours, minutes, 0);
+  const date = new Date(year, month - 1, day, startHours, startMinutes, 0);
+  const endDate = new Date(year, month - 1, day, endHours, endMinutes, 0);
 
   return {
     date,
+    endDate,
     dateString: `${dayStr}.${monthStr.padStart(2, "0")}`,
     fs: `${fs}.FS`,
     rawLine: line.trim(),
@@ -93,13 +97,22 @@ export function parseTermineFile(content: string): SVStunde[] {
 }
 
 /**
- * Find the next SV-Stunde from now
+ * Check if a session is currently in progress
+ */
+export function isSessionInProgress(stunde: SVStunde): boolean {
+  const now = new Date();
+  return now >= stunde.date && now < stunde.endDate;
+}
+
+/**
+ * Find the next SV-Stunde from now (or current if in progress)
  */
 export function getNextSVStunde(stunden: SVStunde[]): SVStunde | null {
   const now = new Date();
   
   for (const stunde of stunden) {
-    if (stunde.date > now) {
+    // If session is in progress or hasn't started yet
+    if (stunde.endDate > now) {
       return stunde;
     }
   }
@@ -108,7 +121,9 @@ export function getNextSVStunde(stunden: SVStunde[]): SVStunde | null {
 }
 
 /**
- * Calculate seconds until the next SV-Stunde
+ * Calculate seconds until the end of the SV-Stunde
+ * If session is in progress, counts to end time
+ * If session hasn't started, counts to start time first
  */
 export function getSecondsUntilNext(nextStunde: SVStunde | null): number {
   if (!nextStunde) {
@@ -116,8 +131,15 @@ export function getSecondsUntilNext(nextStunde: SVStunde | null): number {
   }
 
   const now = new Date();
-  const diff = nextStunde.date.getTime() - now.getTime();
   
+  // If session is in progress, count to end time
+  if (isSessionInProgress(nextStunde)) {
+    const diff = nextStunde.endDate.getTime() - now.getTime();
+    return Math.max(0, Math.floor(diff / 1000));
+  }
+  
+  // Otherwise count to start time
+  const diff = nextStunde.date.getTime() - now.getTime();
   return Math.max(0, Math.floor(diff / 1000));
 }
 
