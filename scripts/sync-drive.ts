@@ -7,6 +7,7 @@ import slugify from "slugify";
 const DOWNLOADS_DIR = path.join(__dirname, "..", "public", "downloads");
 const DATA_DIR = path.join(__dirname, "..", "public", "data");
 const INDEX_FILE = path.join(DATA_DIR, "index.json");
+const TERMINE_FILE = path.join(DATA_DIR, "termine.txt");
 
 // Types
 interface FileMetadata {
@@ -78,6 +79,56 @@ function getDriveClient(): drive_v3.Drive {
   });
 
   return google.drive({ version: "v3", auth });
+}
+
+/**
+ * Find a folder by name in the parent folder
+ */
+async function findFolderByName(
+  drive: drive_v3.Drive,
+  parentFolderId: string,
+  folderName: string
+): Promise<string | null> {
+  const response = await drive.files.list({
+    q: `'${parentFolderId}' in parents and name='${folderName}' and mimeType='application/vnd.google-apps.folder' and trashed=false`,
+    fields: "files(id, name)",
+    pageSize: 1,
+  });
+
+  const folder = response.data.files?.[0];
+  return folder?.id || null;
+}
+
+/**
+ * Find a text file by name in a folder
+ */
+async function findTextFile(
+  drive: drive_v3.Drive,
+  folderId: string,
+  fileName: string
+): Promise<drive_v3.Schema$File | null> {
+  const response = await drive.files.list({
+    q: `'${folderId}' in parents and name='${fileName}' and trashed=false`,
+    fields: "files(id, name, modifiedTime)",
+    pageSize: 1,
+  });
+
+  return response.data.files?.[0] || null;
+}
+
+/**
+ * Read text content from a Google Drive file (for .txt files)
+ */
+async function readTextFile(
+  drive: drive_v3.Drive,
+  fileId: string
+): Promise<string> {
+  const response = await drive.files.get(
+    { fileId, alt: "media" },
+    { responseType: "text" }
+  );
+
+  return response.data as string;
 }
 
 /**
@@ -160,8 +211,8 @@ async function syncDrive(): Promise<void> {
   console.log("🔄 Starting Google Drive sync...\n");
 
   // Check environment variables
-  const folderId = process.env.DRIVE_FOLDER_ID;
-  if (!folderId) {
+  const rootFolderId = process.env.DRIVE_FOLDER_ID;
+  if (!rootFolderId) {
     throw new Error("Missing DRIVE_FOLDER_ID environment variable");
   }
 
@@ -172,15 +223,27 @@ async function syncDrive(): Promise<void> {
   // Initialize Drive client
   const drive = getDriveClient();
 
-  // List files in Drive folder
-  console.log("📂 Fetching files from Google Drive...");
-  const driveFiles = await listDriveFiles(drive, folderId);
+  // Try to find "Protokolle" subfolder first
+  console.log("📂 Looking for folder structure...");
+  const protokolleFolderId = await findFolderByName(drive, rootFolderId, "Protokolle");
+  
+  let pdfFolderId: string;
+  if (protokolleFolderId) {
+    console.log("   ✅ Found 'Protokolle' subfolder\n");
+    pdfFolderId = protokolleFolderId;
+  } else {
+    console.log("   ⚠️  'Protokolle' subfolder not found, using root folder\n");
+    pdfFolderId = rootFolderId;
+  }
+
+  // Fetch protocol PDFs
+  console.log("📂 Fetching protocol PDFs...");
+  const driveFiles = await listDriveFiles(drive, pdfFolderId);
   console.log(`   Found ${driveFiles.length} PDF file(s)\n`);
 
   // Warn if no files found (but don't crash)
   if (driveFiles.length === 0) {
-    console.warn("⚠️  No PDF files found in the specified Drive folder.");
-    console.warn("   Check that DRIVE_FOLDER_ID is correct and the folder contains PDFs.");
+    console.warn("⚠️  No PDF files found in the protocols folder.");
   }
 
   // Process each file
@@ -242,6 +305,23 @@ async function syncDrive(): Promise<void> {
   await fs.writeJson(INDEX_FILE, indexEntries, { spaces: 2 });
   console.log(`📄 Updated ${INDEX_FILE}`);
   console.log(`   ${indexEntries.length} file(s) in index\n`);
+
+  // Try to find and read Termine file
+  console.log("📅 Looking for Termine file...");
+  const termineFile = await findTextFile(drive, rootFolderId, "Termine");
+  
+  if (termineFile?.id) {
+    console.log("   ✅ Found 'Termine' file");
+    try {
+      const termineContent = await readTextFile(drive, termineFile.id);
+      await fs.writeFile(TERMINE_FILE, termineContent, "utf8");
+      console.log(`   📄 Saved to ${TERMINE_FILE}\n`);
+    } catch (error) {
+      console.warn(`   ⚠️  Error reading Termine file: ${error}\n`);
+    }
+  } else {
+    console.log("   ℹ️  'Termine' file not found (optional)\n");
+  }
 
   console.log("✅ Sync complete!");
 }

@@ -1,7 +1,14 @@
 import Link from "next/link";
 import SceneWrapper from "@/components/three/SceneWrapper";
+import CountdownTimer from "@/components/CountdownTimer";
+import { getTermine } from "@/lib/termine";
+import { getNextSVStunde } from "@/lib/schedule";
 
 export default function Home() {
+  // Get the next SV-Stunde
+  const termine = getTermine();
+  const nextStunde = getNextSVStunde(termine);
+
   return (
     <>
       <SceneWrapper />
@@ -32,11 +39,14 @@ export default function Home() {
             <br />
             <span className="text-slate-500">Zugang zu allen Protokollen und Beschlüssen.</span>
           </p>
+
+          {/* Countdown Timer */}
+          <CountdownTimer nextStunde={nextStunde} />
           
           {/* CTA Button */}
           <Link
             href="/archiv"
-            className="btn-glow group relative inline-flex items-center gap-4 px-10 py-5 overflow-hidden bg-cyan-500/5 border border-cyan-400/30 rounded-lg transition-all duration-300 hover:border-cyan-400/60 hover:bg-cyan-500/10"
+            className="btn-glow group relative inline-flex items-center gap-4 px-10 py-5 overflow-hidden bg-cyan-500/5 border border-cyan-400/30 rounded-lg transition-all duration-300 hover:border-cyan-400/60 hover:bg-cyan-500/10 mt-8"
           >
             <span className="relative text-sm font-medium tracking-[0.2em] text-cyan-300 group-hover:text-cyan-200 transition-colors">
               ARCHIV BETRETEN
