@@ -42,6 +42,16 @@ export default function AddTaskForm({ onTaskAdded }: AddTaskFormProps) {
       return;
     }
 
+    // Validate that due date is not in the past
+    const selectedDate = new Date(formData.dueDate);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    
+    if (selectedDate < today) {
+      setError('Das Fälligkeitsdatum darf nicht in der Vergangenheit liegen');
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {

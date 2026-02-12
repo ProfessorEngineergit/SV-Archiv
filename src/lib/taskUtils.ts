@@ -67,7 +67,8 @@ export function getDueDateText(dueDate: string): string {
   const days = calculateDaysUntilDue(dueDate);
   
   if (days < 0) {
-    return `Überfällig seit ${Math.abs(days)} Tag${Math.abs(days) === 1 ? '' : 'en'}`;
+    const absDays = Math.abs(days);
+    return `Überfällig seit ${absDays} Tag${absDays === 1 ? '' : 'en'}`;
   } else if (days === 0) {
     return 'Heute fällig';
   } else if (days === 1) {

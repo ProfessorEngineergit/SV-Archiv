@@ -34,7 +34,7 @@ export async function createTask(taskData: TaskFormData): Promise<Task> {
   const tasks = getTasksFromStorage();
   
   const newTask: Task = {
-    id: `task-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
+    id: `task-${Date.now()}-${crypto.randomUUID()}`,
     title: taskData.title,
     dueDate: taskData.dueDate,
     repetitionInterval: taskData.repetitionInterval,
