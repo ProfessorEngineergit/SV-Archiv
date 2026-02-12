@@ -1,21 +1,10 @@
 # SV-Archiv
 
-Ein öffentliches Archiv für Protokolle und Dokumentation im minimalistischen Sci-Fi-Stil mit integriertem Aufgabenverwaltungssystem.
+Ein öffentliches Archiv für Protokolle und Dokumentation im minimalistischen Sci-Fi-Stil.
 
 ## Über das Projekt
 
 SV-Archiv ist eine moderne Web-Anwendung zur Verwaltung und Präsentation von Protokollen und Dokumenten. Das Design orientiert sich an einem ruhigen, futuristischen Archiv-Konzept mit dezenten Three.js-Hintergründen.
-
-**Neu:** Aufgabenverwaltung mit Duolingo-inspiriertem Design, OLED-Schwarz und Neon-Grün-Akzenten.
-
-## Features
-
-- 📄 **Protokollarchiv** - Zentrale Verwaltung von SV-Protokollen
-- ✅ **Aufgabenverwaltung** - 3-Phasen-Fortschrittssystem (33%, 66%, 100%)
-- 🔄 **Wiederholende Aufgaben** - Täglich, alle 2/3 Tage, wöchentlich, monatlich
-- 🎨 **Duolingo-Design** - OLED-Schwarz mit Neon-Grün für die Aufgaben
-- 🔥 **Firebase/Firestore** - Cloud-basierte Datenspeicherung
-- 🚀 **Next.js 16** - Moderne React-Architektur
 
 ## Technologien
 
@@ -26,7 +15,6 @@ SV-Archiv ist eine moderne Web-Anwendung zur Verwaltung und Präsentation von Pr
 | Styling | Tailwind CSS 4 |
 | 3D-Grafik | React Three Fiber, Drei |
 | Content | Markdown, gray-matter, remark |
-| Datenbank | Firebase Firestore |
 
 ## Installation & Start
 
@@ -36,16 +24,6 @@ npm run dev
 ```
 
 Anschließend ist die Anwendung unter `http://localhost:3000` verfügbar.
-
-### Firebase Setup für Aufgaben
-
-Das Aufgabenverwaltungs-Feature benötigt Firebase/Firestore. Siehe [FIREBASE_SETUP.md](./FIREBASE_SETUP.md) für detaillierte Anweisungen.
-
-**Kurzanleitung:**
-1. Firebase-Projekt erstellen
-2. Firestore Database aktivieren
-3. `.env.local` mit Firebase-Credentials erstellen
-4. App neu starten
 
 ## Verzeichnisstruktur
 
@@ -80,40 +58,13 @@ Dokumentinhalt...
 | `/` | Startseite mit Three.js-Hintergrund |
 | `/archiv` | Übersicht aller Protokolle mit Filteroptionen |
 | `/dokument/[slug]` | Detailansicht eines Dokuments |
-| `/aufgaben` | **Neu:** Aufgabenverwaltung mit 3-Phasen-System |
 
 ## Design-Konzept
 
-### Archiv-Seiten
 - Dunkles Farbschema mit Cyan als Akzentfarbe
 - Dezente Three.js-Animationen im Hintergrund
 - Unterstützung für `prefers-reduced-motion`
 - Typografie im Museums-Stil
-
-### Aufgaben-Seite (Neu)
-- **OLED-Schwarz** (#000000) als Hintergrund
-- **Neon-Grün** (#39FF14) als Akzentfarbe
-- Duolingo-inspiriertes Design
-- 3-Box-Fortschrittssystem (wie eine Batterie)
-- Satisfying Animationen beim Fortschritt
-- Exo2 Schriftart
-
-## Aufgabenverwaltung
-
-### Features
-- **3-Phasen-System:** Markiere Fortschritt mit 3 Boxen (33%, 66%, 100%)
-- **Wiederholungen:** Täglich, alle 2/3 Tage, wöchentlich, monatlich
-- **Smart Scheduling:** Automatische Neuplanung nach Abschluss
-- **Fälligkeitsdaten:** "Fällig in X Tagen" Anzeige
-- **Löschen:** Button erscheint bei 100% Fertigstellung
-
-### Verwendung
-1. Gehe zu `/aufgaben`
-2. Klicke "Neue Aufgabe"
-3. Gib Titel, Fälligkeitsdatum und Wiederholungsintervall ein
-4. Klicke die Boxen, um Fortschritt zu markieren
-5. Bei 100% kannst du die Aufgabe löschen
-6. Wiederholende Aufgaben werden automatisch neu geplant
 
 ## Google Drive spiegeln
 

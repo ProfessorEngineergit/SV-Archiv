@@ -36,13 +36,6 @@ export default function Header() {
             </div>
             
             <Link
-              href="/aufgaben"
-              className="btn-glow px-5 py-2 text-sm font-medium tracking-widest text-slate-300 transition-all hover:text-cyan-300 border border-cyan-500/20 hover:border-cyan-500/40 rounded-md bg-cyan-500/5"
-            >
-              AUFGABEN
-            </Link>
-            
-            <Link
               href="/archiv"
               className="btn-glow px-5 py-2 text-sm font-medium tracking-widest text-slate-300 transition-all hover:text-cyan-300 border border-cyan-500/20 hover:border-cyan-500/40 rounded-md bg-cyan-500/5"
             >
