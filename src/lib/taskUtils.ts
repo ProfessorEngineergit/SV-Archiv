@@ -1,4 +1,4 @@
-import { Task, RepetitionInterval } from '@/types/task';
+import { RepetitionInterval } from '@/types/task';
 
 /**
  * Calculate the next due date based on repetition interval

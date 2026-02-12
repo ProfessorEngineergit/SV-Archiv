@@ -7,7 +7,6 @@ import {
   getDocs,
   query,
   orderBy,
-  Timestamp,
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { Task, TaskFormData } from '@/types/task';
@@ -75,7 +74,7 @@ export async function updateTaskProgress(taskId: string, progress: number, task:
     const taskRef = doc(db, TASKS_COLLECTION, taskId);
     const completed = progress === 3;
     
-    const updates: any = {
+    const updates: Record<string, unknown> = {
       progress,
       completed,
     };

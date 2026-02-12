@@ -89,7 +89,7 @@ export default function TasksClient() {
         {!isLoading && !error && tasks.length > 0 && (
           <div className="mt-8 p-6 bg-dark-gray border border-medium-gray rounded-lg">
             <h3 className="text-lg font-semibold mb-3 text-neon-green">
-              💡 So funktioniert's
+              💡 So funktioniert&apos;s
             </h3>
             <ul className="space-y-2 text-sm text-text-secondary">
               <li className="flex items-start">
