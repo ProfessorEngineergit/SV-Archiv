@@ -184,18 +184,21 @@ export default function ArchiveClient({
       )}
 
       <div className="container mx-auto px-6 py-12">
-        {/* Header Section — brutalist */}
+        {/* Header Section */}
         <div className="mb-10">
           <div className="flex items-stretch gap-5 mb-6">
             <div className="w-1.5 bg-stone-900 flex-shrink-0" />
             <div>
-              <p className="text-[10px] tracking-[0.4em] text-stone-400 uppercase mb-2">Protokolle</p>
-              <h1 className="text-5xl font-extralight tracking-[0.15em] text-stone-900 uppercase">
+              <p className="text-[10px] tracking-[0.4em] text-stone-400 uppercase mb-2 font-subtitle">Protokolle</p>
+              <h1 className="text-5xl font-extralight tracking-[0.15em] text-stone-900 uppercase text-embossed">
                 Archiv
               </h1>
             </div>
           </div>
-          <div className="h-px bg-stone-200" />
+          {/* Pencil-sketch divider line */}
+          <svg width="100%" height="4" viewBox="0 0 800 4" preserveAspectRatio="none" className="overflow-visible">
+            <path d="M0,2 Q100,0 200,2 T400,2 T600,2 T800,2" stroke="#d6d3d1" strokeWidth="1" fill="none" className="pencil-line" strokeLinecap="round" />
+          </svg>
         </div>
 
         {/* Filter Section — minimal brutalist */}
@@ -350,9 +353,9 @@ export default function ArchiveClient({
                       {/* Timeline dot on the line */}
                       <div className="h-3 w-3 rounded-full bg-stone-500 border-2 border-white shadow-sm mb-3 relative z-10" />
 
-                      {/* Protocol card - A4 proportioned, brutalist: sharp corners, heavy border on hover */}
+                      {/* Protocol card - A4 proportioned with paper depth */}
                       <div
-                        className="w-full border border-stone-200 bg-white transition-all duration-200 cursor-pointer hover:border-stone-900 hover:shadow-lg"
+                        className="w-full border border-stone-200 bg-white transition-all duration-300 cursor-pointer hover:border-stone-900 paper-card pencil-wiggle"
                         onClick={() => openFullscreen(protocol)}
                         style={{ aspectRatio: "210 / 297" }}
                       >
