@@ -116,9 +116,9 @@ export default function ArchiveClient({
     <>
       {/* Fullscreen Reading Mode */}
       {fullscreenProtocol && fullscreenProtocol.file && (
-        <div className="fixed inset-0 z-50 bg-white flex flex-col">
-          {/* Top bar — brutalist: thick bottom border */}
-          <div className="flex items-center justify-between px-6 py-3 bg-white border-b-2 border-stone-900">
+        <div className="fixed inset-0 z-50 bg-white/90 backdrop-blur-xl flex flex-col">
+          {/* Top bar — frosted glass rounded */}
+          <div className="flex items-center justify-between px-6 py-3 mx-4 mt-3 glass-heavy">
             <button
               onClick={closeFullscreen}
               className="inline-flex items-center gap-2 text-xs tracking-[0.15em] text-stone-400 uppercase hover:text-stone-900 transition-colors"
@@ -134,7 +134,7 @@ export default function ArchiveClient({
             <a
               href={fullscreenProtocol.file}
               download
-              className="inline-flex items-center gap-2 px-4 py-2 bg-stone-900 text-white text-xs tracking-[0.15em] uppercase hover:bg-stone-800 transition-all"
+              className="pencil-btn inline-flex items-center gap-2 px-4 py-2 bg-stone-900 text-white text-xs tracking-[0.15em] uppercase hover:bg-stone-800 transition-all"
             >
               <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -143,7 +143,7 @@ export default function ArchiveClient({
             </a>
           </div>
           {/* PDF viewer with fallback for mobile/Safari */}
-          <div className="flex-1 min-h-0 relative bg-stone-50">
+          <div className="flex-1 min-h-0 relative bg-stone-50 mx-4 mb-4 rounded-2xl overflow-hidden">
             {!pdfLoadFailed ? (
               <iframe
                 src={fullscreenProtocol.file}
@@ -164,7 +164,7 @@ export default function ArchiveClient({
                     href={fullscreenProtocol.file}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 bg-stone-800 text-white rounded-lg hover:bg-stone-900 transition-colors"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-stone-800 text-white rounded-xl hover:bg-stone-900 transition-colors"
                   >
                     <svg className="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -175,7 +175,7 @@ export default function ArchiveClient({
               </div>
             )}
             {/* Mobile hint — shown on top of iframe */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-white/90 backdrop-blur-sm text-xs text-stone-400 px-3 py-1.5 rounded-full border border-stone-200 pointer-events-none sm:hidden">
+            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 glass-subtle text-xs text-stone-400 px-4 py-2 rounded-full pointer-events-none sm:hidden">
               Falls das PDF nicht lädt, bitte herunterladen ↑
             </div>
           </div>
@@ -294,7 +294,7 @@ export default function ArchiveClient({
 
         {/* No results */}
         {filteredProtocols.length === 0 && (
-          <div className="border border-stone-200 bg-white px-8 py-16 text-center rounded-lg">
+          <div className="glass rounded-2xl px-8 py-16 text-center">
             <div className="mb-4 text-4xl text-stone-300">∅</div>
             <p className="text-stone-400 text-sm">
               Keine Protokolle für die aktuelle Filterauswahl gefunden
@@ -309,7 +309,7 @@ export default function ArchiveClient({
             <div className="flex justify-between mb-4">
               <button
                 onClick={scrollToEarliest}
-                className="btn-glow flex items-center gap-2 px-3 py-1.5 text-xs text-stone-500 border border-stone-200 rounded-md hover:text-stone-800 hover:border-stone-300 hover:bg-stone-50 transition-all"
+                className="btn-glow flex items-center gap-2 px-3 py-1.5 text-xs text-stone-500 border border-stone-200 rounded-xl hover:text-stone-800 hover:border-stone-300 hover:bg-stone-50 transition-all"
               >
                 <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 19l-7-7 7-7m8 14l-7-7 7-7" />
@@ -318,7 +318,7 @@ export default function ArchiveClient({
               </button>
               <button
                 onClick={scrollToLatest}
-                className="btn-glow flex items-center gap-2 px-3 py-1.5 text-xs text-stone-500 border border-stone-200 rounded-md hover:text-stone-800 hover:border-stone-300 hover:bg-stone-50 transition-all"
+                className="btn-glow flex items-center gap-2 px-3 py-1.5 text-xs text-stone-500 border border-stone-200 rounded-xl hover:text-stone-800 hover:border-stone-300 hover:bg-stone-50 transition-all"
               >
                 Aktuelles
                 <svg className="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -352,9 +352,9 @@ export default function ArchiveClient({
                       {/* Timeline dot on the line */}
                       <div className="h-3 w-3 rounded-full bg-stone-500 border-2 border-white shadow-sm mb-3 relative z-10" />
 
-                      {/* Protocol card - A4 proportioned with paper depth */}
+                      {/* Protocol card - A4 proportioned with frosted glass depth */}
                       <div
-                        className="w-full border border-stone-200 bg-white transition-all duration-300 cursor-pointer hover:border-stone-900 paper-card pencil-wiggle"
+                        className="w-full bg-white rounded-2xl overflow-hidden transition-all duration-400 cursor-pointer paper-card"
                         onClick={() => openFullscreen(protocol)}
                         style={{ aspectRatio: "210 / 297" }}
                       >
@@ -394,16 +394,16 @@ export default function ArchiveClient({
 
         {/* List View */}
         {viewMode === "table" && filteredProtocols.length > 0 && (
-          <div className="divide-y divide-stone-200 border-t-2 border-stone-900">
+          <div className="space-y-3">
             {[...filteredProtocols].reverse().map((protocol) => (
               <div
                 key={protocol.slug}
-                className="flex items-center gap-5 py-4 cursor-pointer group hover:bg-stone-50 transition-colors px-1"
+                className="flex items-center gap-5 py-4 px-4 cursor-pointer group glass rounded-2xl transition-all hover:shadow-lg"
                 onClick={() => openFullscreen(protocol)}
               >
                 {/* PDF mini preview */}
                 {protocol.file && (
-                  <div className="hidden sm:block relative h-16 w-12 overflow-hidden bg-stone-50 border border-stone-200 flex-shrink-0">
+                  <div className="hidden sm:block relative h-16 w-12 overflow-hidden bg-stone-50 rounded-lg border border-stone-200/50 flex-shrink-0">
                     <iframe
                       src={`${protocol.file}${PDF_PREVIEW_PARAMS}`}
                       className="w-full h-full pointer-events-none"
@@ -430,7 +430,7 @@ export default function ArchiveClient({
 
                 <div className="flex items-center gap-3 flex-shrink-0">
                   {protocol.tags.map((tag) => (
-                    <span key={tag} className="border border-stone-200 px-2 py-0.5 text-[10px] text-stone-500 tracking-wider">
+                    <span key={tag} className="glass-subtle px-3 py-1 text-[10px] text-stone-500 tracking-wider rounded-full">
                       {tag}
                     </span>
                   ))}

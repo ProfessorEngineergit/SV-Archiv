@@ -28,7 +28,7 @@ export default function CountdownTimer({ nextStunde }: CountdownTimerProps) {
   }
 
   return (
-    <div className="mt-8 p-6 border border-stone-200 bg-white rounded-lg paper-card">
+    <div className="mt-8 p-6 glass rounded-2xl">
       <div className="flex flex-col items-center gap-3">
         <div className="flex items-center gap-2">
           <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />

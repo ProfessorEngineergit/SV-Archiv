@@ -13,8 +13,8 @@ export default function ArchiveTabs() {
   const pathname = usePathname();
 
   return (
-    <nav className="border-b-2 border-stone-900 bg-white">
-      <div className="container mx-auto px-6">
+    <nav className="mx-4 mt-2">
+      <div className="glass-heavy container mx-auto px-6">
         <div className="flex">
           {tabs.map((tab) => {
             const isActive =
@@ -33,7 +33,7 @@ export default function ArchiveTabs() {
               >
                 {tab.name}
                 {isActive && (
-                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-stone-900" />
+                  <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-stone-900 rounded-full" />
                 )}
               </Link>
             );
