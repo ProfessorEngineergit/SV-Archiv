@@ -48,7 +48,7 @@ export default function PdfViewer({ file, title }: PdfViewerProps) {
           minHeight: "500px",
         }}
         title={title}
-        sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox"
+        sandbox="allow-same-origin allow-scripts allow-popups allow-forms allow-popups-to-escape-sandbox allow-downloads"
         onError={() => setLoadFailed(true)}
       />
       {/* Mobile fallback hint */}
