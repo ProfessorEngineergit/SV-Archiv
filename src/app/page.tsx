@@ -5,7 +5,6 @@ import { getTermine } from "@/lib/termine";
 import { getNextSVStunde } from "@/lib/schedule";
 
 export default function Home() {
-  // Get the next SV-Stunde
   const termine = getTermine();
   const nextStunde = getNextSVStunde(termine);
 
@@ -13,69 +12,55 @@ export default function Home() {
     <>
       <SceneWrapper />
       <div className="relative flex min-h-[calc(100vh-4rem)] items-center justify-center px-6">
-        <div className="text-center max-w-3xl">
-          {/* Decorative top element */}
-          <div className="mb-8 flex justify-center">
-            <div className="relative">
-              <div className="h-px w-32 bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
-              <div className="absolute -top-1 left-1/2 -translate-x-1/2 h-2 w-2 rotate-45 border border-cyan-400/40" />
-            </div>
+        <div className="text-center max-w-3xl w-full">
+
+          {/* Thin rule */}
+          <div className="mb-10 flex justify-center">
+            <div className="h-px w-24 bg-stone-900" />
           </div>
-          
-          {/* Main title */}
-          <h1 className="mb-4 text-6xl font-extralight tracking-[0.25em] text-cyan-50 md:text-8xl holo-text">
-            SV-ARCHIV
+
+          {/* Main title — light sans-serif, wide tracking */}
+          <h1 className="mb-2 text-5xl font-extralight tracking-[0.3em] text-stone-900 md:text-7xl uppercase">
+            SV FWS FFM
           </h1>
-          
-          {/* Subtitle */}
-          <div className="mb-8 flex justify-center items-center gap-4">
-            <div className="h-px w-12 bg-gradient-to-r from-transparent to-violet-400/50" />
-            <span className="text-xs text-violet-300/70 tracking-[0.4em]">PROTOKOLL-VERWALTUNG</span>
-            <div className="h-px w-12 bg-gradient-to-l from-transparent to-violet-400/50" />
-          </div>
-          
-          <p className="mb-12 text-lg font-light tracking-wide text-slate-400 md:text-xl leading-relaxed">
-            Zentrales Archiv für SV-Protokolle und Dokumentation.
-            <br />
-            <span className="text-slate-500">Zugang zu allen Protokollen und Beschlüssen.</span>
+
+          {/* Subtitle label */}
+          <p className="mb-10 text-[11px] tracking-[0.5em] text-stone-400 uppercase">
+            Protokoll-Archiv
           </p>
+
+          {/* Thick rule + description side by side on desktop */}
+          <div className="flex flex-col md:flex-row items-center md:items-start gap-6 mb-12 text-left max-w-xl mx-auto">
+            <div className="w-1 md:w-1 md:self-stretch bg-stone-900 flex-shrink-0 h-1 md:h-auto min-h-[3rem]" />
+            <p className="text-sm font-light text-stone-500 leading-relaxed tracking-wide">
+              Zentrales Archiv für SV-Protokolle und Dokumentation.
+              Zugang zu allen Protokollen und Beschlüssen der Schülervertretung.
+            </p>
+          </div>
 
           {/* Countdown Timer */}
           <CountdownTimer nextStunde={nextStunde} />
-          
-          {/* CTA Button */}
+
+          {/* CTA — brutalist: black filled button */}
           <Link
             href="/archiv"
-            className="btn-glow group relative inline-flex items-center gap-4 px-10 py-5 overflow-hidden bg-cyan-500/5 border border-cyan-400/30 rounded-lg transition-all duration-300 hover:border-cyan-400/60 hover:bg-cyan-500/10 mt-8"
+            className="group mt-10 inline-flex items-center gap-4 px-8 py-4 bg-stone-900 text-white text-xs font-medium tracking-[0.2em] uppercase transition-all hover:bg-stone-800"
           >
-            <span className="relative text-sm font-medium tracking-[0.2em] text-cyan-300 group-hover:text-cyan-200 transition-colors">
-              ARCHIV BETRETEN
-            </span>
-            
-            <svg
-              className="relative h-4 w-4 text-cyan-400 transition-transform group-hover:translate-x-1"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth={1.5}
-                d="M17 8l4 4m0 0l-4 4m4-4H3"
-              />
+            Archiv betreten
+            <svg className="h-4 w-4 transition-transform group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M17 8l4 4m0 0l-4 4m4-4H3" />
             </svg>
           </Link>
-          
-          {/* Status indicators */}
-          <div className="mt-16 flex justify-center gap-8 text-xs text-slate-600">
+
+          {/* Bottom rule */}
+          <div className="mt-16 flex justify-center gap-8 text-[10px] text-stone-400 tracking-widest uppercase">
             <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400/60" />
-              SYSTEME AKTIV
+              <span className="h-1.5 w-1.5 rounded-full bg-stone-400" />
+              Systeme aktiv
             </span>
             <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-violet-400/60" />
-              DATEN VERFÜGBAR
+              <span className="h-1.5 w-1.5 rounded-full bg-stone-400" />
+              Daten verfügbar
             </span>
           </div>
         </div>

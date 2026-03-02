@@ -45,10 +45,10 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
 
   if (!nextStunde) {
     return (
-      <div className="p-8 border border-slate-700/50 bg-slate-900/30 rounded-lg text-center">
-        <div className="mb-4 text-4xl text-slate-700">
+      <div className="p-8 border border-stone-200 bg-white rounded-lg text-center">
+        <div className="mb-4 text-4xl text-stone-700">
           <svg
-            className="h-16 w-16 mx-auto text-slate-600"
+            className="h-16 w-16 mx-auto text-stone-400"
             fill="none"
             stroke="currentColor"
             viewBox="0 0 24 24"
@@ -61,7 +61,7 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
             />
           </svg>
         </div>
-        <p className="text-slate-500 text-sm">
+        <p className="text-stone-500 text-sm">
           Keine bevorstehenden SV-Stunden geplant.
           <br />
           Die Themeneingabe wird verfügbar, sobald ein neuer Termin feststeht.
@@ -72,12 +72,12 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
-      <div className="p-6 border border-cyan-400/20 bg-slate-900/40 backdrop-blur-sm rounded-lg">
+      <div className="p-6 border border-stone-200 bg-white rounded-lg">
         {/* Name Field */}
         <div className="mb-6">
           <label
             htmlFor="name"
-            className="block text-sm text-slate-400 tracking-wider mb-2"
+            className="block text-sm text-stone-400 tracking-wider mb-2"
           >
             DEIN NAME <span className="text-red-400">*</span>
           </label>
@@ -88,7 +88,7 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
             onChange={(e) => setName(e.target.value)}
             required
             placeholder="Vorname Nachname"
-            className="w-full border border-slate-700/50 bg-slate-900/70 px-4 py-3 text-slate-200 placeholder-slate-600 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/20 transition-all rounded-md"
+            className="w-full border border-stone-200 bg-white px-4 py-3 text-stone-700 placeholder-stone-400 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400/30 transition-all rounded-md"
             disabled={isSubmitting}
           />
         </div>
@@ -97,7 +97,7 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
         <div>
           <label
             htmlFor="thema"
-            className="block text-sm text-slate-400 tracking-wider mb-2"
+            className="block text-sm text-stone-400 tracking-wider mb-2"
           >
             THEMA / ANLIEGEN <span className="text-red-400">*</span>
           </label>
@@ -108,7 +108,7 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
             required
             placeholder="Beschreibe dein Thema oder Anliegen..."
             rows={6}
-            className="w-full border border-slate-700/50 bg-slate-900/70 px-4 py-3 text-slate-200 placeholder-slate-600 focus:border-cyan-400/50 focus:outline-none focus:ring-1 focus:ring-cyan-400/20 transition-all rounded-md resize-none"
+            className="w-full border border-stone-200 bg-white px-4 py-3 text-stone-700 placeholder-stone-400 focus:border-stone-400 focus:outline-none focus:ring-1 focus:ring-stone-400/30 transition-all rounded-md resize-none"
             disabled={isSubmitting}
           />
         </div>
@@ -118,7 +118,7 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
           <button
             type="submit"
             disabled={isSubmitting || !name.trim() || !thema.trim()}
-            className="w-full btn-glow px-6 py-3 bg-cyan-500/10 border border-cyan-400/30 rounded-lg text-cyan-300 font-medium tracking-wider transition-all hover:bg-cyan-500/20 hover:border-cyan-400/50 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-cyan-500/10 disabled:hover:border-cyan-400/30"
+            className="w-full btn-glow px-6 py-3 bg-stone-800 border border-stone-300 rounded-lg text-white font-medium tracking-wider transition-all hover:bg-stone-900 hover:border-stone-300 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? (
               <span className="flex items-center justify-center gap-2">

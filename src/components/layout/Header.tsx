@@ -4,55 +4,55 @@ import Link from "next/link";
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 border-b border-cyan-400/20 bg-slate-950/90 backdrop-blur-md">
-      <div className="h-[2px] bg-gradient-to-r from-transparent via-cyan-400/60 to-transparent" />
-      
-      <div className="container mx-auto px-6 py-4">
+    <header className="fixed top-0 left-0 right-0 z-50 bg-white border-b-2 border-stone-900">
+      <div className="container mx-auto px-6 py-3">
         <nav className="flex items-center justify-between">
-          <Link
-            href="/"
-            className="group flex items-center gap-4"
-          >
-            <div className="relative h-10 w-10 flex items-center justify-center">
-              <div className="absolute inset-0 border border-cyan-400/40 rotate-45 transition-transform group-hover:rotate-[135deg] group-hover:border-violet-400/60" />
-              <div className="absolute inset-1 border border-violet-400/30 transition-all group-hover:scale-90 group-hover:border-cyan-400/50" />
-              <span className="text-xs text-cyan-300 group-hover:text-violet-300 transition-colors font-semibold">SV</span>
+          {/* Bauhaus geometric circle logo + wordmark */}
+          <Link href="/" className="group flex items-center gap-4">
+            <div className="relative h-10 w-10 flex-shrink-0">
+              <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-10 w-10">
+                <circle cx="20" cy="20" r="18" stroke="#1c1917" strokeWidth="2" fill="none" />
+                <line x1="20" y1="4" x2="20" y2="36" stroke="#1c1917" strokeWidth="1.5" />
+                <text x="20" y="24" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="Inter, sans-serif" fill="#1c1917" letterSpacing="1">SV</text>
+              </svg>
             </div>
-            
-            <div className="flex flex-col">
-              <span className="text-lg font-light tracking-[0.3em] text-cyan-50 transition-colors group-hover:text-cyan-300">
-                SV-ARCHIV
-              </span>
-              <span className="text-[10px] text-slate-500 tracking-widest">
-                PROTOKOLL-VERWALTUNG
-              </span>
+
+            <div className="flex items-center gap-3">
+              <div className="w-px h-8 bg-stone-300" />
+              <div className="flex flex-col leading-tight">
+                <span className="text-base font-light tracking-[0.25em] text-stone-900 uppercase">
+                  SV FWS FFM
+                </span>
+                <span className="text-[9px] text-stone-400 tracking-[0.3em] uppercase">
+                  Protokoll-Archiv
+                </span>
+              </div>
             </div>
           </Link>
-          
-          <div className="flex items-center gap-6">
-            <div className="hidden sm:flex items-center gap-2 text-xs text-slate-500">
-              <span className="h-2 w-2 rounded-full bg-cyan-400 shadow-[0_0_8px_2px_rgba(103,232,249,0.5)]" />
-              <span>AKTIV</span>
+
+          {/* Navigation */}
+          <div className="flex items-center">
+            <div className="hidden sm:flex items-center gap-2 text-[10px] text-stone-400 tracking-widest mr-6">
+              <span className="h-1.5 w-1.5 rounded-full bg-stone-400" />
+              AKTIV
             </div>
-            
+
             <Link
               href="/aufgaben"
-              className="btn-glow px-5 py-2 text-sm font-medium tracking-widest text-slate-300 transition-all hover:text-cyan-300 border border-cyan-500/20 hover:border-cyan-500/40 rounded-md bg-cyan-500/5"
+              className="px-5 py-3 text-xs font-medium tracking-[0.15em] text-stone-600 uppercase transition-all hover:text-stone-900 hover:bg-stone-50 border-l border-stone-200"
             >
-              AUFGABEN
+              Aufgaben
             </Link>
-            
+
             <Link
               href="/archiv"
-              className="btn-glow px-5 py-2 text-sm font-medium tracking-widest text-slate-300 transition-all hover:text-cyan-300 border border-cyan-500/20 hover:border-cyan-500/40 rounded-md bg-cyan-500/5"
+              className="px-5 py-3 text-xs font-medium tracking-[0.15em] text-white uppercase bg-stone-900 hover:bg-stone-800 transition-all"
             >
-              ARCHIV
+              Archiv
             </Link>
           </div>
         </nav>
       </div>
-      
-      <div className="h-px bg-gradient-to-r from-transparent via-violet-400/30 to-transparent" />
     </header>
   );
 }

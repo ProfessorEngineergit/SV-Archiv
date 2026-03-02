@@ -28,28 +28,28 @@ export default function CountdownTimer({ nextStunde }: CountdownTimerProps) {
   }
 
   return (
-    <div className="mt-8 p-6 border border-cyan-400/20 bg-slate-900/40 backdrop-blur-sm rounded-lg">
+    <div className="mt-8 p-6 border border-stone-200 bg-white rounded-lg shadow-sm">
       <div className="flex flex-col items-center gap-3">
         <div className="flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-cyan-400 animate-pulse" />
-          <span className="text-xs text-slate-500 tracking-widest uppercase">
+          <div className="h-2 w-2 rounded-full bg-stone-500 animate-pulse" />
+          <span className="text-xs text-stone-400 tracking-widest uppercase">
             {inProgress ? "Sitzung läuft" : "Nächste SV-Stunde"}
           </span>
         </div>
         
         <div className="text-center">
-          <div className="text-4xl font-light text-cyan-300 tabular-nums">
+          <div className="text-4xl font-light text-stone-800 tabular-nums">
             {seconds.toLocaleString("de-DE")}
           </div>
-          <div className="text-sm text-slate-400 mt-1">
+          <div className="text-sm text-stone-500 mt-1">
             Sekunden
           </div>
-          <div className="text-xs text-slate-500 mt-2">
+          <div className="text-xs text-stone-400 mt-2">
             ({formatDuration(seconds)})
           </div>
         </div>
 
-        <div className="text-xs text-violet-400/80 text-center mt-2">
+        <div className="text-xs text-stone-500 text-center mt-2">
           {nextStunde.dateString} • {nextStunde.fs}
         </div>
       </div>
