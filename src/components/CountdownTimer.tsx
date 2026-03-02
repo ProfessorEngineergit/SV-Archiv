@@ -28,11 +28,11 @@ export default function CountdownTimer({ nextStunde }: CountdownTimerProps) {
   }
 
   return (
-    <div className="mt-8 p-6 border border-stone-200 bg-white rounded-lg shadow-sm">
+    <div className="mt-8 p-6 glass rounded-2xl">
       <div className="flex flex-col items-center gap-3">
         <div className="flex items-center gap-2">
-          <div className="h-2 w-2 rounded-full bg-stone-500 animate-pulse" />
-          <span className="text-xs text-stone-400 tracking-widest uppercase">
+          <div className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span className="text-xs text-stone-400 tracking-widest uppercase font-subtitle">
             {inProgress ? "Sitzung läuft" : "Nächste SV-Stunde"}
           </span>
         </div>
