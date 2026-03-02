@@ -1,35 +1,31 @@
 export default function Footer() {
   return (
-    <footer className="border-t border-cyan-400/15 bg-slate-950/95 backdrop-blur-sm">
-      <div className="h-px bg-gradient-to-r from-transparent via-violet-400/20 to-transparent" />
-      
+    <footer className="border-t border-stone-200 bg-white">
       <div className="container mx-auto px-6 py-8">
         <div className="flex flex-col items-center justify-between gap-6 sm:flex-row">
           <div className="flex flex-col items-center sm:items-start gap-2">
-            <p className="text-sm text-slate-400 tracking-wider">
-              SV-ARCHIV
+            <p className="text-sm text-stone-700 tracking-wider font-medium">
+              SV FWS FFM
             </p>
-            <p className="text-xs text-slate-600">
+            <p className="text-xs text-stone-400">
               Protokoll-Archiv der Schülervertretung
             </p>
           </div>
           
-          <div className="flex items-center gap-4 text-xs text-slate-500">
+          <div className="flex items-center gap-4 text-xs text-stone-400">
             <span className="flex items-center gap-2">
-              <span className="h-1.5 w-1.5 rounded-full bg-cyan-400/60" />
+              <span className="h-1.5 w-1.5 rounded-full bg-stone-400" />
               DATENBANK SYNCHRONISIERT
             </span>
           </div>
         </div>
         
-        <div className="mt-6 pt-4 border-t border-slate-800/50 text-center">
-          <p className="text-[10px] text-slate-600 tracking-widest">
+        <div className="mt-6 pt-4 border-t border-stone-100 text-center">
+          <p className="text-[10px] text-stone-400 tracking-widest">
             © SV-Waldorfschule Frankfurt a.M. 2026
           </p>
         </div>
       </div>
-      
-      <div className="h-[2px] bg-gradient-to-r from-transparent via-cyan-400/40 to-transparent" />
     </footer>
   );
 }

@@ -27,15 +27,15 @@ export default function DokumentePage() {
         {/* Header Section */}
         <div className="mb-10">
           <div className="flex items-center gap-4 mb-4">
-            <div className="h-px flex-1 bg-gradient-to-r from-cyan-400/40 to-transparent" />
-            <span className="text-xs text-cyan-400/60 tracking-widest">DOKUMENTE</span>
-            <div className="h-px flex-1 bg-gradient-to-l from-cyan-400/40 to-transparent" />
+            <div className="h-px flex-1 bg-gradient-to-r from-stone-300 to-transparent" />
+            <span className="text-xs text-stone-400 tracking-widest">DOKUMENTE</span>
+            <div className="h-px flex-1 bg-gradient-to-l from-stone-300 to-transparent" />
           </div>
 
-          <h1 className="mb-4 text-5xl font-light tracking-[0.15em] text-cyan-50 text-center">
+          <h1 className="mb-4 text-5xl font-light tracking-[0.15em] text-stone-900 text-center">
             DOKUMENTE
           </h1>
-          <p className="text-slate-400 text-center">
+          <p className="text-stone-500 text-center">
             Wichtige Dokumente und Informationen
           </p>
         </div>
@@ -45,12 +45,12 @@ export default function DokumentePage() {
           {documents.map((doc) => (
             <div
               key={doc.title}
-              className="group p-8 border border-slate-700/40 bg-slate-900/30 rounded-lg transition-all duration-300 hover:border-cyan-400/30 hover:bg-slate-900/50 cursor-pointer"
+              className="group p-8 border border-stone-200 bg-white rounded-lg transition-all duration-300 hover:border-stone-300 hover:shadow-md cursor-pointer"
             >
               <div className="mb-4">
-                <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-cyan-500/10 border border-cyan-400/30 group-hover:bg-cyan-500/20 transition-all">
+                <div className="inline-flex items-center justify-center w-12 h-12 rounded-lg bg-stone-50 border border-stone-200 group-hover:bg-stone-100 transition-all">
                   <svg
-                    className="h-6 w-6 text-cyan-400"
+                    className="h-6 w-6 text-stone-800"
                     fill="none"
                     stroke="currentColor"
                     viewBox="0 0 24 24"
@@ -65,16 +65,16 @@ export default function DokumentePage() {
                 </div>
               </div>
 
-              <h2 className="mb-2 text-xl font-medium text-cyan-50 group-hover:text-cyan-300 transition-colors">
+              <h2 className="mb-2 text-xl font-medium text-stone-800 group-hover:text-stone-900 transition-colors">
                 {doc.title}
               </h2>
               
-              <p className="text-sm text-slate-400 mb-4">
+              <p className="text-sm text-stone-500 mb-4">
                 {doc.description}
               </p>
 
-              <div className="flex items-center gap-2 text-xs text-violet-400/70">
-                <span className="h-1.5 w-1.5 rounded-full bg-violet-400/60" />
+              <div className="flex items-center gap-2 text-xs text-stone-400">
+                <span className="h-1.5 w-1.5 rounded-full bg-stone-300" />
                 {doc.type}
               </div>
             </div>
@@ -82,11 +82,11 @@ export default function DokumentePage() {
         </div>
 
         {/* Info message */}
-        <div className="mt-12 p-6 border border-violet-400/20 bg-violet-900/10 rounded-lg max-w-3xl mx-auto">
+        <div className="mt-12 p-6 border border-stone-200 bg-stone-50 rounded-lg max-w-3xl mx-auto">
           <div className="flex items-start gap-4">
             <div className="flex-shrink-0 mt-0.5">
               <svg
-                className="h-5 w-5 text-violet-400"
+                className="h-5 w-5 text-stone-800"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -100,10 +100,10 @@ export default function DokumentePage() {
               </svg>
             </div>
             <div>
-              <h3 className="text-sm font-medium text-violet-300 mb-1">
+              <h3 className="text-sm font-medium text-stone-900 mb-1">
                 Hinweis
               </h3>
-              <p className="text-sm text-slate-400">
+              <p className="text-sm text-stone-500">
                 Die Dokumente werden aus dem Google Drive &quot;Dokumente&quot;-Ordner geladen.
                 Diese Funktion wird nach der Einrichtung der Ordnerstruktur verfügbar sein.
               </p>
