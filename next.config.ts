@@ -7,6 +7,11 @@ const nextConfig: NextConfig = {
   images: {
     unoptimized: true,
   },
+  env: {
+    NEXT_PUBLIC_GOOGLE_SCRIPT_URL:
+      process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL ||
+      'https://script.google.com/macros/s/AKfycbwqSwKQhLhDbBxAa8x74UC_bwfJHk7WhdLeF16EcJfh4DZ-AiYOX_sPs96O0SfO7TrH/exec',
+  },
 };
 
 export default nextConfig;
