@@ -19,30 +19,20 @@ export default function Header() {
       <div className="mx-4 mt-3">
         <div className="glass-heavy container mx-auto px-6">
           <nav className="flex items-center justify-between py-3">
-            {/* Logo + wordmark */}
-            <Link href="/" className="group flex items-center gap-4">
-              <div className="relative h-10 w-10 flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
-                <Image
-                  src="/SV-Logo.svg"
-                  alt="SV Logo"
-                  width={40}
-                  height={40}
-                  className="h-10 w-10"
-                  priority
-                />
-              </div>
+            {/* Logo + Archiv */}
+            <Link href="/" className="group flex items-center gap-3">
+              <Image
+                src="/SV-Logo.svg"
+                alt="SV Logo"
+                width={44}
+                height={44}
+                className="h-11 w-11 flex-shrink-0 transition-transform duration-300 group-hover:scale-105"
+                priority
+              />
 
-              <div className="flex items-center gap-3">
-                <div className="w-px h-8 bg-stone-300/60" />
-                <div className="flex flex-col leading-tight">
-                  <span className="text-base font-light tracking-[0.25em] text-stone-900 uppercase">
-                    SV FWS FFM
-                  </span>
-                  <span className="text-[9px] text-stone-400 tracking-[0.3em] uppercase font-subtitle">
-                    Protokoll-Archiv
-                  </span>
-                </div>
-              </div>
+              <span className="font-subtitle text-2xl tracking-[0.08em] text-stone-900">
+                Archiv
+              </span>
             </Link>
 
             {/* Navigation */}
