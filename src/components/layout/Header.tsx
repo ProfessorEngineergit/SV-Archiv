@@ -3,6 +3,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { usePathname } from "next/navigation";
+import svLogo from "../../../public/SV-Logo.svg";
 
 const archiveTabs = [
   { name: "Protokolle", path: "/archiv" },
@@ -22,7 +23,7 @@ export default function Header() {
             {/* Logo + Archiv */}
             <Link href="/" className="group flex items-center gap-3">
               <Image
-                src="/SV-Logo.svg"
+                src={svLogo}
                 alt="SV Logo"
                 width={80}
                 height={80}
