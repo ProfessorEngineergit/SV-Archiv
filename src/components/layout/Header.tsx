@@ -24,9 +24,9 @@ export default function Header() {
               <Image
                 src="/SV-Logo.svg"
                 alt="SV Logo"
-                width={44}
-                height={44}
-                className="h-11 w-11 flex-shrink-0 transition-transform duration-300 group-hover:scale-105"
+                width={80}
+                height={80}
+                className="h-20 w-20 flex-shrink-0 transition-transform duration-300 group-hover:scale-105"
                 priority
               />
 
