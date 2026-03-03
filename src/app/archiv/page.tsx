@@ -1,6 +1,5 @@
 import { getAllProtocols, getAllProjects, getAllTags } from "@/lib/protocols";
 import ArchiveClient from "./ArchiveClient";
-import ArchiveTabs from "@/components/ArchiveTabs";
 
 export const metadata = {
   title: "Archiv | SV-Archiv",
@@ -13,9 +12,6 @@ export default function ArchivePage() {
   const tags = getAllTags();
 
   return (
-    <>
-      <ArchiveTabs />
-      <ArchiveClient protocols={protocols} projects={projects} tags={tags} />
-    </>
+    <ArchiveClient protocols={protocols} projects={projects} tags={tags} />
   );
 }

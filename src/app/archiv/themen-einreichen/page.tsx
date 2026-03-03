@@ -1,4 +1,3 @@
-import ArchiveTabs from "@/components/ArchiveTabs";
 import ThemenForm from "./ThemenForm";
 import { getTermine } from "@/lib/termine";
 import { getNextSVStunde, formatSVStundeDisplay } from "@/lib/schedule";
@@ -13,9 +12,7 @@ export default function ThemenEinreichenPage() {
   const nextStunde = getNextSVStunde(termine);
 
   return (
-    <>
-      <ArchiveTabs />
-      <div className="container mx-auto px-6 py-12">
+    <div className="container mx-auto px-6 py-12">
         {/* Header Section */}
         <div className="mb-10">
           <div className="flex items-center gap-4 mb-4">
@@ -78,6 +75,5 @@ export default function ThemenEinreichenPage() {
           </div>
         </div>
       </div>
-    </>
   );
 }
