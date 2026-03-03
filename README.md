@@ -194,3 +194,35 @@ Nach dem Sync liegen die Dateien in:
 - `public/downloads/<slug>.pdf` – die PDF-Dateien
 - `public/downloads/<slug>.pdf.meta.json` – Metadaten (für Change-Detection)
 - `public/data/index.json` – Index aller Dateien (Array, sortiert nach Datum, neueste zuerst)
+
+## Themen einreichen → Google Doc
+
+Über die Seite `/archiv/themen-einreichen` können Themen für die nächste SV-Stunde eingereicht werden. Die Themen werden per Google Apps Script in ein Google Doc geschrieben.
+
+### Setup-Anleitung
+
+1. **Google Doc erstellen** – Erstelle ein neues Google Doc (z. B. „SV Themen"). Kopiere die Doc-ID aus der URL:
+   ```
+   https://docs.google.com/document/d/<DOC_ID>/edit
+   ```
+
+2. **Google Apps Script erstellen**
+   - Öffne [script.google.com](https://script.google.com) und erstelle ein neues Projekt.
+   - Lösche den vorhandenen Code in `Code.gs` und kopiere den Inhalt aus [`scripts/google-apps-script.js`](./scripts/google-apps-script.js) hinein.
+   - Ersetze `DEINE_GOOGLE_DOC_ID_HIER` mit der Doc-ID aus Schritt 1.
+
+3. **Apps Script bereitstellen**
+   - Klicke auf **Bereitstellen** → **Neue Bereitstellung**.
+   - Typ: **Web-App**
+   - Ausführen als: **Ich (dein Account)**
+   - Zugriff: **Jeder**
+   - Klicke auf **Bereitstellen** und kopiere die Web-App-URL.
+
+4. **URL in `.env.local` eintragen**
+   ```env
+   NEXT_PUBLIC_GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/DEIN_SCRIPT_ID/exec
+   ```
+
+5. **Testen** – Gehe auf `/archiv/themen-einreichen`, fülle das Formular aus und prüfe, ob das Thema im Google Doc erscheint.
+
+> **Hinweis:** Nach jeder Codeänderung im Apps Script muss eine **neue Bereitstellung** erstellt werden, damit die Änderungen wirksam werden.
