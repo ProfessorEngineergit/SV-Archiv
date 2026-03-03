@@ -40,8 +40,32 @@ export default function ThemenEinreichenPage() {
           )}
         </div>
 
+        {/* Work in Progress Banner */}
+        <div className="max-w-2xl mx-auto mb-6">
+          <div className="p-4 border border-amber-300 bg-amber-50 rounded-lg">
+            <div className="flex items-center gap-3">
+              <svg
+                className="h-5 w-5 text-amber-500 flex-shrink-0"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 9v2m0 4h.01M12 3l9.66 16.5a1 1 0 01-.87 1.5H3.21a1 1 0 01-.87-1.5L12 3z"
+                />
+              </svg>
+              <span className="text-sm text-amber-800 font-medium">
+                Das Einreichen von Themen ist derzeit noch nicht verfügbar. Diese Funktion befindet sich noch in Entwicklung.
+              </span>
+            </div>
+          </div>
+        </div>
+
         {/* Form */}
-        <div className="max-w-2xl mx-auto">
+        <div className="max-w-2xl mx-auto opacity-50 pointer-events-none" aria-disabled="true">
           <ThemenForm nextStunde={nextStunde} />
         </div>
 
