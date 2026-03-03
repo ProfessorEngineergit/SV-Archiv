@@ -1,5 +1,3 @@
-import ArchiveTabs from "@/components/ArchiveTabs";
-
 export const metadata = {
   title: "Dokumente | SV-Archiv",
   description: "Wichtige Dokumente wie Satzung und gewählte Personen",
@@ -21,9 +19,7 @@ const documents = [
 
 export default function DokumentePage() {
   return (
-    <>
-      <ArchiveTabs />
-      <div className="container mx-auto px-6 py-12">
+    <div className="container mx-auto px-6 py-12">
         {/* Header Section */}
         <div className="mb-10">
           <div className="flex items-center gap-4 mb-4">
@@ -111,6 +107,5 @@ export default function DokumentePage() {
           </div>
         </div>
       </div>
-    </>
   );
 }

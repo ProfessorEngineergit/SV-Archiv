@@ -24,9 +24,25 @@ export default function ThemenForm({ nextStunde }: ThemenFormProps) {
     setSubmitStatus("idle");
 
     try {
-      // TODO: Implement API endpoint to save to Google Drive
-      // For now, just simulate a submission
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      const scriptUrl = process.env.NEXT_PUBLIC_GOOGLE_SCRIPT_URL;
+
+      if (!scriptUrl) {
+        throw new Error("Google Script URL nicht konfiguriert");
+      }
+
+      const response = await fetch(scriptUrl, {
+        method: "POST",
+        headers: { "Content-Type": "text/plain" },
+        body: JSON.stringify({
+          name: name.trim(),
+          thema: thema.trim(),
+          date: nextStunde.date,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
       
       setSubmitStatus("success");
       setName("");

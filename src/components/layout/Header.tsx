@@ -1,33 +1,38 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { usePathname } from "next/navigation";
+
+const archiveTabs = [
+  { name: "Protokolle", path: "/archiv" },
+  { name: "Dokumente", path: "/archiv/dokumente" },
+  { name: "Themen Einreichen", path: "/archiv/themen-einreichen" },
+];
 
 export default function Header() {
+  const pathname = usePathname();
+  const isArchive = pathname.startsWith("/archiv");
+
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       <div className="mx-4 mt-3">
-        <div className="glass-heavy container mx-auto px-6 py-3">
-          <nav className="flex items-center justify-between">
-            {/* Bauhaus geometric circle logo + wordmark */}
-            <Link href="/" className="group flex items-center gap-4">
-              <div className="relative h-10 w-10 flex-shrink-0 transition-transform duration-300 group-hover:scale-105">
-                <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" className="h-10 w-10">
-                  <circle cx="20" cy="20" r="18" stroke="#1c1917" strokeWidth="2" fill="none" className="circle-draw" />
-                  <text x="20" y="24" textAnchor="middle" fontSize="11" fontWeight="700" fontFamily="Arial, sans-serif" fill="#1c1917" letterSpacing="1" className="fade-draw-in">SV</text>
-                </svg>
-              </div>
+        <div className="glass-heavy container mx-auto px-6">
+          <nav className="flex items-center justify-between py-3">
+            {/* Logo + Archiv */}
+            <Link href="/" className="group flex items-center gap-3">
+              <Image
+                src="/SV-Logo.svg"
+                alt="SV Logo"
+                width={44}
+                height={44}
+                className="h-11 w-11 flex-shrink-0 transition-transform duration-300 group-hover:scale-105"
+                priority
+              />
 
-              <div className="flex items-center gap-3">
-                <div className="w-px h-8 bg-stone-300/60" />
-                <div className="flex flex-col leading-tight">
-                  <span className="text-base font-light tracking-[0.25em] text-stone-900 uppercase">
-                    SV FWS FFM
-                  </span>
-                  <span className="text-[9px] text-stone-400 tracking-[0.3em] uppercase font-subtitle">
-                    Protokoll-Archiv
-                  </span>
-                </div>
-              </div>
+              <span className="font-subtitle text-2xl tracking-[0.08em] text-stone-900">
+                Archiv
+              </span>
             </Link>
 
             {/* Navigation */}
@@ -45,6 +50,40 @@ export default function Header() {
               </Link>
             </div>
           </nav>
+
+          {/* Archive tabs — smoothly expand from header */}
+          <div
+            className="overflow-hidden transition-all duration-300 ease-in-out"
+            style={{
+              maxHeight: isArchive ? "60px" : "0px",
+              opacity: isArchive ? 1 : 0,
+            }}
+          >
+            <div className="flex border-t border-stone-200/40">
+              {archiveTabs.map((tab) => {
+                const isActive =
+                  pathname === tab.path ||
+                  (tab.path !== "/archiv" && pathname.startsWith(tab.path));
+
+                return (
+                  <Link
+                    key={tab.path}
+                    href={tab.path}
+                    className={`px-6 py-4 text-[10px] tracking-[0.2em] uppercase transition-all relative ${
+                      isActive
+                        ? "text-stone-900 font-medium"
+                        : "text-stone-400 hover:text-stone-700"
+                    }`}
+                  >
+                    {tab.name}
+                    {isActive && (
+                      <div className="absolute bottom-0 left-2 right-2 h-0.5 bg-stone-900 rounded-full" />
+                    )}
+                  </Link>
+                );
+              })}
+            </div>
+          </div>
         </div>
       </div>
     </header>
