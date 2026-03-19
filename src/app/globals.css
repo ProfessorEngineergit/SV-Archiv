@@ -258,6 +258,17 @@ h1, h2, h3, h4, h5, h6 {
   animation: fadeDrawIn 0.8s cubic-bezier(0.25, 0.1, 0.25, 1) forwards;
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .pencil-line,
+  .pencil-scribble,
+  .circle-draw,
+  .handwrite-reveal,
+  .fade-draw-in,
+  .check-draw {
+    animation: none !important;
+  }
+}
+
 /* Button styling — haptic depth, rounded */
 .future-btn {
   position: relative;
