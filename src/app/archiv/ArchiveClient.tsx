@@ -188,8 +188,8 @@ export default function ArchiveClient({
           <div className="flex items-stretch gap-5 mb-6">
             <div className="w-1.5 bg-stone-900 flex-shrink-0" />
             <div>
-              <p className="text-[10px] tracking-[0.4em] text-stone-400 uppercase mb-2 font-subtitle">Protokolle</p>
-              <h1 className="text-5xl font-extralight tracking-[0.15em] text-stone-900 uppercase text-embossed">
+              <p className="text-[10px] tracking-[0.4em] text-stone-400 uppercase mb-2 font-subtitle handwrite-reveal" style={{ animationDelay: "0.05s" }}>Protokolle</p>
+              <h1 className="text-5xl font-extralight tracking-[0.15em] text-stone-900 uppercase text-embossed handwrite-reveal" style={{ animationDelay: "0.15s" }}>
                 Archiv
               </h1>
             </div>

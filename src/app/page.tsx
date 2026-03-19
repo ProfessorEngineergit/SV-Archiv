@@ -34,10 +34,10 @@ export default function Home() {
           </p>
 
           {/* Frosted glass description panel */}
-          <div className="glass mb-12 max-w-xl mx-auto p-6">
+          <div className="glass mb-12 max-w-xl mx-auto p-6 fade-draw-in" style={{ animationDelay: "0.4s" }}>
             <div className="flex flex-col md:flex-row items-center md:items-start gap-5 text-left">
               <div className="w-1 md:w-1 md:self-stretch bg-stone-900/80 flex-shrink-0 h-1 md:h-auto min-h-[3rem] rounded-full" />
-              <p className="text-sm font-light text-stone-500 leading-relaxed tracking-wide">
+              <p className="text-sm font-light text-stone-500 leading-relaxed tracking-wide handwrite-reveal" style={{ animationDelay: "0.6s" }}>
                 Zentrales Archiv für SV-Protokolle und Dokumentation.
                 Zugang zu allen Protokollen und Beschlüssen der Schülervertretung.
               </p>
@@ -67,12 +67,12 @@ export default function Home() {
           </div>
 
           {/* Bottom status indicators in frosted glass pill */}
-          <div className="mt-8 inline-flex glass-subtle px-6 py-3 gap-8 text-[10px] text-stone-400 tracking-widest uppercase">
-            <span className="flex items-center gap-2">
+          <div className="mt-8 inline-flex glass-subtle px-6 py-3 gap-8 text-[10px] text-stone-400 tracking-widest uppercase fade-draw-in" style={{ animationDelay: "1s" }}>
+            <span className="flex items-center gap-2 handwrite-reveal" style={{ animationDelay: "1.1s" }}>
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Systeme aktiv
             </span>
-            <span className="flex items-center gap-2">
+            <span className="flex items-center gap-2 handwrite-reveal" style={{ animationDelay: "1.2s" }}>
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
               Daten verfügbar
             </span>
