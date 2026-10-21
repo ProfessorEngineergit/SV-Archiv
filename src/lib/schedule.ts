@@ -6,6 +6,9 @@ export interface FSTimeRange {
 
 export const FS_TIME_MAP: Record<string, FSTimeRange> = {
   HU: { start: "08:00", end: "09:40" },
+  // Period "0" covers the slot before the first regular FS (used when termine.txt lists "1.FS",
+  // which maps to this earlier slot due to the off-by-one in the list's period numbering).
+  "0": { start: "09:15", end: "10:00" },
   "1": { start: "10:00", end: "10:45" },
   "2": { start: "10:50", end: "11:35" },
   "3": { start: "11:55", end: "12:40" },
@@ -52,9 +55,17 @@ export function parseTermineLine(line: string, currentYear: number): SVStunde | 
   }
 
   // Get the time range for this FS
-  const timeRange = FS_TIME_MAP[fs];
+  // The list uses FS numbers that are one higher than the internal map index,
+  // so we look up N-1 to get the correct (earlier) time slot.
+  const fsNumber = parseInt(fs, 10);
+  if (fsNumber < 1) {
+    console.warn(`Invalid FS number: ${fs} (must be 1 or higher)`);
+    return null;
+  }
+  const fsMapKey = String(fsNumber - 1);
+  const timeRange = FS_TIME_MAP[fsMapKey];
   if (!timeRange) {
-    console.warn(`Unknown FS number: ${fs}`);
+    console.warn(`Unknown FS number: ${fs} (mapped to key: ${fsMapKey})`);
     return null;
   }
 
