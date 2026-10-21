@@ -226,3 +226,7 @@ Nach dem Sync liegen die Dateien in:
 5. **Testen** – Gehe auf `/archiv/themen-einreichen`, fülle das Formular aus und prüfe, ob das Thema im Google Doc erscheint.
 
 > **Hinweis:** Nach jeder Codeänderung im Apps Script muss eine **neue Bereitstellung** erstellt werden, damit die Änderungen wirksam werden.
+
+## Entwicklung und KI-Beteiligung
+
+Die Historie des Hauptbranches enthält ausdrücklich GitHub Copilot zugeschriebene Beiträge ([Beispiel](https://github.com/ProfessorEngineergit/SV-Archiv/commit/ec9e4519c4fc2a7155e7f20bff2a4964fd2316cc)). Das belegt KI-Beteiligung an diesen Beiträgen, nicht die Herkunft jeder Zeile oder eine unabhängige Prüfung. Bestehende Autor-, Co-Autoren- und Sitzungsangaben bleiben erhalten.
