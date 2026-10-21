@@ -191,9 +191,9 @@ Der Workflow läuft auch automatisch alle 6 Stunden per Schedule.
 ### Ergebnis
 
 Nach dem Sync liegen die Dateien in:
-- `public/downloads/<slug>.pdf` – die PDF-Dateien
-- `public/downloads/<slug>.pdf.meta.json` – Metadaten (für Change-Detection)
-- `public/data/index.json` – Index aller Dateien (Array, sortiert nach Datum, neueste zuerst)
+- `public/downloads/<slug>.pdf` - die PDF-Dateien
+- `public/downloads/<slug>.pdf.meta.json` - Metadaten (für Change-Detection)
+- `public/data/index.json` - Index aller Dateien (Array, sortiert nach Datum, neueste zuerst)
 
 ## Themen einreichen → Google Doc
 
@@ -201,7 +201,7 @@ Nach dem Sync liegen die Dateien in:
 
 ### Setup-Anleitung
 
-1. **Google Doc erstellen** – Erstelle ein neues Google Doc (z. B. „SV Themen"). Kopiere die Doc-ID aus der URL:
+1. **Google Doc erstellen** - Erstelle ein neues Google Doc (z. B. „SV Themen"). Kopiere die Doc-ID aus der URL:
    ```
    https://docs.google.com/document/d/<DOC_ID>/edit
    ```
@@ -223,10 +223,10 @@ Nach dem Sync liegen die Dateien in:
    NEXT_PUBLIC_GOOGLE_SCRIPT_URL=https://script.google.com/macros/s/DEIN_SCRIPT_ID/exec
    ```
 
-5. **Testen** – Gehe auf `/archiv/themen-einreichen`, fülle das Formular aus und prüfe, ob das Thema im Google Doc erscheint.
+5. **Testen** - Gehe auf `/archiv/themen-einreichen`, fülle das Formular aus und prüfe, ob das Thema im Google Doc erscheint.
 
 > **Hinweis:** Nach jeder Codeänderung im Apps Script muss eine **neue Bereitstellung** erstellt werden, damit die Änderungen wirksam werden.
 
-## Entwicklung und KI-Beteiligung
+## KI-Beteiligung
 
-Die Historie des Hauptbranches enthält ausdrücklich GitHub Copilot zugeschriebene Beiträge ([Beispiel](https://github.com/ProfessorEngineergit/SV-Archiv/commit/ec9e4519c4fc2a7155e7f20bff2a4964fd2316cc)). Das belegt KI-Beteiligung an diesen Beiträgen, nicht die Herkunft jeder Zeile oder eine unabhängige Prüfung. Bestehende Autor-, Co-Autoren- und Sitzungsangaben bleiben erhalten.
+Einzelne Code-Beiträge sind ausdrücklich KI-Tools zugeschrieben: [GitHub Copilot](https://github.com/ProfessorEngineergit/SV-Archiv/commit/56faee1c5a424918d2f18b730408cbe18b63239d). Das gilt für diese Beiträge, nicht pauschal für alle Dateien.
